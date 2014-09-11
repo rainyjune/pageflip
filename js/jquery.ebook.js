@@ -25,15 +25,20 @@
 
     function init() {
       originalCard = element.children();
+      pageCount = originalCard.length;
       pageIndex = 0;
+
       addDisplayContainer();
       moveOriginalPages();
-      pageCount = originalCard.length;
       populatePages();
+
       activeCard = $("#" + displayContainerName + " div:nth-child(1)");
       bindEvents();
     }
 
+    /*
+     * Move all original pages to a div.
+     */
     function moveOriginalPages() {
       var originalPagesContainer = $("<div id='"+originalContainerName+"'></div>");
       element.append(originalPagesContainer);
@@ -41,6 +46,9 @@
       originCardsContainer = $("#" + originalContainerName);
     }
 
+    /*
+     * Add a div to storage pages to be displayed.
+     */
     function addDisplayContainer() {
       var originalPagesContainer = $("<div id='"+displayContainerName+"'></div>");
       element.append(originalPagesContainer);
