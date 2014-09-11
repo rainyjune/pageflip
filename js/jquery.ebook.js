@@ -44,12 +44,34 @@
       var pageIndexs = mathGame(pageCount, pageIndex);
       console.log("pageindexs", pageIndexs);
       for (var i = 0; i < pageIndexs.length; i++) {
-        var thisPage = $("#originalPagesContainer div:nth-child(" + pageIndexs[i] + ")");
-        thisPage.clone().attr('data-page', pageIndexs[i]).appendTo($("#displayContainer"));
+        var pageId = pageIndexs[i];
+        // IF the specified page is not loaded yet
+        if($("div[data-page='"+pageId+"']").length === 0) {
+          console.log("NOT REQUIRED.....");
+          var thisPage = $("#originalPagesContainer div:nth-child(" + pageId + ")");
+          
+          if (bottomMostCard) {
+            console.log("bootomcard", bottomMostCard)
+            $(bottomMostCard).attr('data-page', pageId).html(thisPage.clone().html());
+            if (slideIsForward) {
+              $(bottomMostCard).css("transform", "translateX(0px)");
+            } else {
+              $(bottomMostCard).css("transform", "translateX(-1024px)");
+            }
+          } else {
+            thisPage.clone().attr('data-page', pageId).appendTo($("#displayContainer"));
+          }
+        } else {
+          console.log("div#" + pageId + " is loaded already.");
+        }
       }
     }
 
     function updateZIndex(isForward) {
+      // UPDATE PAGES AFTER Z-INDEX Updated
+      populatePages();
+
+
       isForward = typeof isForward != "undefined" ? isForward : true;
       var displayCardCount = $("#displayContainer").children();
       for (var i = 0, len = displayCardCount.length; i < len; i++) {
@@ -67,6 +89,8 @@
           bottomMostCard = thisCard;
         }
       }
+
+      
     }
 
     function setActiveCard(card) {
@@ -75,8 +99,10 @@
 
     function slideCard(isForward) {
       if (isForward) {
+        pageIndex++;
         activeCard.css("transform", "translateX(-1024px)");
       } else {
+        pageIndex--;
         updateZIndex(false);
         setTimeout(function () {
           $(prevCard).css("transform", "translateX(0px)");
@@ -108,9 +134,14 @@
     function transitionend(e) {
       console.log("Transition end!", e);
       var target = $(e.target);
+      //console.log();
+      var targetZIndex = target.css("z-index");
+      if (targetZIndex != 3) {
+        return;
+      }
       if (e.originalEvent.propertyName === "transform") {
         if (slideIsForward) {
-          updateZIndex();
+          updateZIndex(true);
           prevCard = target;
           activeCard = $(topMostCard);
         } else {
