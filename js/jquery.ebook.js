@@ -20,6 +20,9 @@
     var originalContainerName = "originalPagesContainer";
     var displayContainerName = "displayContainer";
 
+    var originCardsContainer;
+    var displayCardsContainer;
+
     function init() {
       originalCard = element.children();
       pageIndex = 0;
@@ -35,11 +38,13 @@
       var originalPagesContainer = $("<div id='"+originalContainerName+"'></div>");
       element.append(originalPagesContainer);
       originalCard.appendTo(originalPagesContainer);
+      originCardsContainer = $("#" + originalContainerName);
     }
 
     function addDisplayContainer() {
       var originalPagesContainer = $("<div id='"+displayContainerName+"'></div>");
       element.append(originalPagesContainer);
+      displayCardsContainer = $("#" + displayContainerName);
     }
 
     function populatePages() {
@@ -61,7 +66,7 @@
               $(bottomMostCard).css("transform", "translateX(-1024px)");
             }
           } else {
-            thisPage.clone().attr('data-page', pageId).appendTo($("#" + displayContainerName));
+            thisPage.clone().attr('data-page', pageId).appendTo(displayCardsContainer);
           }
         } else {
           console.log("div#" + pageId + " is loaded already.");
@@ -75,7 +80,7 @@
 
 
       isForward = typeof isForward != "undefined" ? isForward : true;
-      var displayCardCount = $("#" + displayContainerName).children();
+      var displayCardCount = displayCardsContainer.children();
       for (var i = 0, len = displayCardCount.length; i < len; i++) {
         var thisCard = displayCardCount[i];
         var thisZIndex = parseInt($(thisCard).css('z-index'));
