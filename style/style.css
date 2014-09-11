@@ -42,3 +42,12 @@
 #originalPagesContainer {
   display: none;
 }
+
+
+/* Buttons */
+a.prevBtn, a.nextBtn {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: green;
+  border-radius: 5px;
+}
