@@ -5,24 +5,55 @@
     var mergedOptions = $.extend(defaultOptions, options);
 
     var element = $(this);
-    var slideCards = element.children();
+    var originalCard = null;
+    var slideCards = null;
     var activeCard = null;
     var prevCard = null;
-    var slideIsForward = null;
     var nextCard = null;
+    var slideIsForward = null;
+    var pageCount = 0;
+    var pageIndex = 0;
 
     var topMostCard = null;
     var bottomMostCard = null;
 
     function init() {
-      activeCard = $(slideCards[0]);
+      originalCard = element.children();
+      pageIndex = 0;
+      addDisplayContainer();
+      moveOriginalPages();
+      slideCards = $("#originalPagesContainer").children();
+      pageCount = slideCards.length;
+      populatePages();
+      activeCard = $("#displayContainer div:nth-child(1)");
       bindEvents();
+    }
+
+    function moveOriginalPages() {
+      var originalPagesContainer = $("<div id='originalPagesContainer'></div>");
+      element.append(originalPagesContainer);
+      originalCard.appendTo(originalPagesContainer);
+    }
+
+    function addDisplayContainer() {
+      var originalPagesContainer = $("<div id='displayContainer'></div>");
+      element.append(originalPagesContainer);
+    }
+
+    function populatePages() {
+      var pageIndexs = mathGame(pageCount, pageIndex);
+      console.log("pageindexs", pageIndexs);
+      for (var i = 0; i < pageIndexs.length; i++) {
+        var thisPage = $("#originalPagesContainer div:nth-child(" + pageIndexs[i] + ")");
+        thisPage.clone().appendTo($("#displayContainer"));
+      }
     }
 
     function updateZIndex(isForward) {
       isForward = typeof isForward != "undefined" ? isForward : true;
-      for (var i = 0, len = slideCards.length; i < len; i++) {
-        var thisCard = slideCards[i];
+      var displayCardCount = $("#displayContainer").children();
+      for (var i = 0, len = displayCardCount.length; i < len; i++) {
+        var thisCard = displayCardCount[i];
         var thisZIndex = parseInt($(thisCard).css('z-index'));
         if (isForward) {
           thisZIndex = thisZIndex === 3 ? 1 : (thisZIndex + 1);
@@ -83,7 +114,6 @@
           prevCard = target;
           activeCard = $(topMostCard);
         } else {
-          //prevCard = activeCard;
           prevCard = $(bottomMostCard);
           activeCard = target;
         }
@@ -92,6 +122,28 @@
         console.log("Activecard:", activeCard[0].innerHTML);
         console.log("Previouscard:", prevCard[0].innerHTML);
       }
+    }
+
+    function mathGame(pageCount, pageIndex) {
+      if (pageCount < 1 || pageIndex < 0 || pageIndex > pageCount - 1) {
+        throw new Error("mathGame error");
+      }
+      var total = [];
+      var start, end;
+      for (var i = 0; i < pageCount; i++) {
+        total.push(i+1);
+      }
+      if (pageIndex === 0) {
+        start = 0;
+        end = 3;
+      } else if (pageIndex === pageCount - 1) {
+        start = pageIndex - 2;
+        end = pageCount;
+      } else {
+        start = pageIndex - 1 ;
+        end = pageIndex + 2;
+      }
+      return total.slice(start, end);
     }
 
     init();

@@ -11,7 +11,7 @@
   overflow: hidden;
 }
 
-.wrapper > div {
+#displayContainer > div {
   position: absolute;
   top: 0;
   left: 0;
@@ -27,14 +27,18 @@
   transition-property: transform;
 }
 
-.wrapper > div:nth-child(1) {
+#displayContainer > div:nth-child(1) {
   z-index: 3;
 }
 
-.wrapper > div:nth-child(2) {
+#displayContainer > div:nth-child(2) {
   z-index: 2;
 }
 
-.wrapper > div:nth-child(3) {
+#displayContainer > div:nth-child(3) {
   z-index: 1;
+}
+
+#originalPagesContainer {
+  display: none;
 }
