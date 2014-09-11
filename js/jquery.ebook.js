@@ -45,7 +45,7 @@
       console.log("pageindexs", pageIndexs);
       for (var i = 0; i < pageIndexs.length; i++) {
         var thisPage = $("#originalPagesContainer div:nth-child(" + pageIndexs[i] + ")");
-        thisPage.clone().appendTo($("#displayContainer"));
+        thisPage.clone().attr('data-page', pageIndexs[i]).appendTo($("#displayContainer"));
       }
     }
 
