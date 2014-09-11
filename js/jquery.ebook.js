@@ -5,8 +5,8 @@
     var mergedOptions = $.extend(defaultOptions, options);
 
     var element = $(this);
+    // Holds all original pages
     var originalCard = null;
-    var slideCards = null;
     var activeCard = null;
     var prevCard = null;
     var nextCard = null;
@@ -25,8 +25,7 @@
       pageIndex = 0;
       addDisplayContainer();
       moveOriginalPages();
-      slideCards = $("#" + originalContainerName).children();
-      pageCount = slideCards.length;
+      pageCount = originalCard.length;
       populatePages();
       activeCard = $("#" + displayContainerName + " div:nth-child(1)");
       bindEvents();
