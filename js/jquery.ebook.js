@@ -17,26 +17,29 @@
     var topMostCard = null;
     var bottomMostCard = null;
 
+    var originalContainerName = "originalPagesContainer";
+    var displayContainerName = "displayContainer";
+
     function init() {
       originalCard = element.children();
       pageIndex = 0;
       addDisplayContainer();
       moveOriginalPages();
-      slideCards = $("#originalPagesContainer").children();
+      slideCards = $("#" + originalContainerName).children();
       pageCount = slideCards.length;
       populatePages();
-      activeCard = $("#displayContainer div:nth-child(1)");
+      activeCard = $("#" + displayContainerName + " div:nth-child(1)");
       bindEvents();
     }
 
     function moveOriginalPages() {
-      var originalPagesContainer = $("<div id='originalPagesContainer'></div>");
+      var originalPagesContainer = $("<div id='"+originalContainerName+"'></div>");
       element.append(originalPagesContainer);
       originalCard.appendTo(originalPagesContainer);
     }
 
     function addDisplayContainer() {
-      var originalPagesContainer = $("<div id='displayContainer'></div>");
+      var originalPagesContainer = $("<div id='"+displayContainerName+"'></div>");
       element.append(originalPagesContainer);
     }
 
@@ -48,7 +51,7 @@
         // IF the specified page is not loaded yet
         if($("div[data-page='"+pageId+"']").length === 0) {
           console.log("NOT REQUIRED.....");
-          var thisPage = $("#originalPagesContainer div:nth-child(" + pageId + ")");
+          var thisPage = $("#" + originalContainerName + " div:nth-child(" + pageId + ")");
           
           if (bottomMostCard) {
             console.log("bootomcard", bottomMostCard)
@@ -59,7 +62,7 @@
               $(bottomMostCard).css("transform", "translateX(-1024px)");
             }
           } else {
-            thisPage.clone().attr('data-page', pageId).appendTo($("#displayContainer"));
+            thisPage.clone().attr('data-page', pageId).appendTo($("#" + displayContainerName));
           }
         } else {
           console.log("div#" + pageId + " is loaded already.");
@@ -73,7 +76,7 @@
 
 
       isForward = typeof isForward != "undefined" ? isForward : true;
-      var displayCardCount = $("#displayContainer").children();
+      var displayCardCount = $("#" + displayContainerName).children();
       for (var i = 0, len = displayCardCount.length; i < len; i++) {
         var thisCard = displayCardCount[i];
         var thisZIndex = parseInt($(thisCard).css('z-index'));
