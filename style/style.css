@@ -1,0 +1,40 @@
+﻿.wrapper {
+  margin: 0;
+  padding: 0;
+  width: 1024px;
+  height: 768px;
+  border: 1px solid blue;
+  margin-left: auto;
+  margin-right: auto;
+
+  position: relative;
+  overflow: hidden;
+}
+
+.wrapper > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transition-duration: 1s;
+  -o-transition-duration: 1s;
+  -moz-transition-duration: 1s;
+  transition-duration: 1s;
+  -webkit-transition-property: transform;
+  -moz-transition-property: transform;
+  -o-transition-property: transform;
+  transition-property: transform;
+}
+
+.wrapper > div:nth-child(1) {
+  z-index: 3;
+}
+
+.wrapper > div:nth-child(2) {
+  z-index: 2;
+}
+
+.wrapper > div:nth-child(3) {
+  z-index: 1;
+}
