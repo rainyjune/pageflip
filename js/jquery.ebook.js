@@ -23,15 +23,20 @@
     var originCardsContainer;
     var displayCardsContainer;
 
+    var prevBtn;
+    var nextBtn;
+
     function init() {
       originalCard = element.children();
       pageCount = originalCard.length;
       pageIndex = 0;
+      prevBtn = $(".prevBtn");
+      nextBtn = $(".nextBtn");
 
       addDisplayContainer();
       moveOriginalPages();
       populatePages();
-
+      updatePager();
       activeCard = $("#" + displayContainerName + " div:nth-child(1)");
       bindEvents();
     }
@@ -125,22 +130,50 @@
 
     function bindEvents() {
       element.on("transitionend", transitionend);
-      $(".prevBtn").on("click", showPrevSlide);
-      $(".nextBtn").on("click", showNextSlide);
+      prevBtn.on("click", showPrevSlide);
+      nextBtn.on("click", showNextSlide);
     }
 
     function showPrevSlide(e) {
       e.preventDefault();
+      if (pageIndex==0) {
+        alert("The is the first page."); return;
+      }
       slideIsForward = false;
       slideCard(false);
+      updatePager();
       return false;
     }
 
     function showNextSlide(e) {
       e.preventDefault();
+      if (pageIndex==pageCount-1) {
+        alert("The is the last page."); return;
+      }
       slideIsForward = true;
       slideCard(true);
+      updatePager();
       return false;
+    }
+
+    function updatePager() {
+      if (pageIndex <= 0) {
+        prevBtn.addClass("disabledButton");
+      } else {
+        prevBtn.removeClass("disabledButton");
+      }
+      if (pageIndex >= pageCount - 1) {
+        nextBtn.addClass("disabledButton");
+      } else {
+        nextBtn.removeClass("disabledButton");
+      }
+    }
+
+    /**
+     * Not in use.
+     */
+    function isInPages() {
+      return pageIndex >= 0 && pageIndex <= pageCount - 1;
     }
 
     function transitionend(e) {

@@ -51,3 +51,7 @@ a.prevBtn, a.nextBtn {
   background-color: green;
   border-radius: 5px;
 }
+
+a.disabledButton {
+  background-color: gray;
+}
