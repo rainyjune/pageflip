@@ -83,9 +83,7 @@
     }
 
     function updateZIndex(isForward) {
-      // UPDATE PAGES AFTER Z-INDEX Updated
       populatePages();
-
 
       isForward = typeof isForward != "undefined" ? isForward : true;
       var displayCardCount = displayCardsContainer.children();
@@ -104,7 +102,6 @@
           bottomMostCard = thisCard;
         }
       }
-
       
     }
 
