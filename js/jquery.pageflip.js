@@ -46,17 +46,13 @@
           case 37: // left
             showPrevSlide(e);
             break;
-
           case 38: // up
             break;
-
           case 39: // right
             showNextSlide(e);
             break;
-
           case 40: // down
             break;
-
           default: return; // exit this handler for other keys
         }
         e.preventDefault(); // prevent the default action (scroll / move caret)
