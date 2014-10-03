@@ -13,6 +13,9 @@
     var prevBtn = null,
         nextBtn = null;
     
+    /**
+     * The init function.
+     */
     function init() {
       originalCards = element.children();
       originalCardsCount = originalCards.length;
@@ -29,6 +32,11 @@
       updatePager();
     }
     
+    
+    /**
+     * Add event listeners for this plugin.
+     *
+     */
     function addListeners() {
       prevBtn.on("click", showPrevSlide);
       nextBtn.on("click", showNextSlide);
@@ -55,6 +63,12 @@
       });
     }
     
+    
+    /**
+     * Show the next page.
+     * @param {Event} e The jQuery click event object.
+     * @return {Boolean} false
+     */
     function showNextSlide(e) {
       e.preventDefault();
       if (currentPageIndex == originalCardsCount-1) {
@@ -71,6 +85,12 @@
       return false;
     }
     
+    
+    /**
+     * Show the previous page.
+     * @param {Event} e The jQuery click event object.
+     * @return {Boolean} false
+     */
     function showPrevSlide(e) {
       e.preventDefault();
       if (currentPageIndex == 0) {
@@ -88,6 +108,9 @@
     }
     
     
+    /**
+     * Update the previous, next button style.
+     */
     function updatePager() {
       if (currentPageIndex <= 0) {
         prevBtn.addClass("disabledButton");
@@ -101,26 +124,45 @@
       }
     }
     
+    /**
+     * Create a new container to hold all the pages to be displayed.
+     */
     function buildVisualContainer() {
       visualContainer = $("<div id='displayContainer'></div>");
       element.append(visualContainer);
     }
     
+    /**
+     * Create a new container to place all these pages.
+     */
     function buildOriginalCardContainer() {
       originalCardContainer = $("<div id='originalPagesContainer'></div>");
       element.append(originalCardContainer);
     }
     
+    /**
+     * Move orignal pages into a new container.
+     */
     function moveOriginalCardsToContainer() {
       originalCardContainer.append(originalCards);
     }
     
+    
+    /**
+     * Populate required pages.
+     *
+     */
     function populateVisiblePages() {
       var visiblePageIds = mathGame(currentPageIndex);
       var requiredPages = getRequiredPages(visiblePageIds);
       fetchPagesAndPopulate(requiredPages);
     }
     
+    /**
+     * Include required pages and then populate them into div#displayContainer element.
+     * @param {Array} pageIds
+     * @return {Undefined}
+     */
     function fetchPagesAndPopulate(pageIds) {
       console.log("Fetch", pageIds);
       $.each(pageIds, function(index, id){
@@ -149,6 +191,11 @@
       });
     }
     
+    /**
+     * Returns Ids of pages that should be in the div#displayContainer element but have not included yet.
+     * @param {Array} pageIds All Ids of pages that in the div#displayContainer element.
+     * @return {Array}
+     */
     function getRequiredPages(pageIds) {
       var result = [];
       $.each(pageIds, function(index, id){
@@ -159,6 +206,11 @@
       return result;
     }
     
+    /**
+     * Returns Ids of pages which are should be in the div#displayContainer element.
+     * @param {Number} pageIndex
+     * @return {Array}
+     */
     function mathGame(pageIndex) {
       pageIndex = parseInt(pageIndex);
       var pageCount = originalCardsCount;
@@ -183,6 +235,10 @@
       return total.slice(start, end);
     }
     
+    /**
+     * Get ids of pages which are in the div#displayContainer element.
+     * @return {Array}
+     */
     function getVisiblePageIds() {
       var result = [];
       $.each(visualContainer.children(), function(index, page){
@@ -191,6 +247,12 @@
       return result;
     }
     
+    /**
+     * Get id of the page which should be replaced.
+     * @param {Number} pageId
+     * @param {Array} pageIdArray
+     * @return {Number|Null}
+     */
     function findNotReachableNumber(pageId, pageIdArray) {
       var result = null;
       pageId = parseInt(pageId);
@@ -205,6 +267,12 @@
       return result;
     }
     
+    /**
+     * Get sibling page Ids.
+     * 
+     * @param {Number} pageIndex The page Id.
+     * @return {Array}
+     */
     function getSiblingIds(pageIndex) {
       pageIndex = parseInt(pageIndex);
       var pageCount = originalCardsCount;
