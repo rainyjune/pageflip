@@ -106,25 +106,14 @@
       
       visualContainer.prepend(currentPageElement);
       slidePageElement(currentPageElement, function() {
-        //debugger;
         currentPageElement.css("transform", "initial");
         currentPageElement.removeClass("transition slideRight");
-        // Move current page to bottom most
         
         currentPageIndex--;
         populateVisiblePages();
         
         updatePager();
       },'previous');
-      return false;
-      /*
-      // Move current page to bottom most
-      visualContainer.prepend();
-      currentPageIndex--;
-      populateVisiblePages();
-      
-      updatePager();
-      */
       return false;
     }
     
@@ -133,16 +122,13 @@
         pageElement.addClass("transition slideLeft");
         tempFunc(pageElement, slideCallBack);
       } else {
-        pageElement.css("transform", "translateX(-1024px)");
-        
+        pageElement.css("transform", "translateX(-1024px)"); 
         
         setTimeout(function(){
           pageElement.addClass("transition slideRight");
           tempFunc(pageElement, slideCallBack);
         }, 0);
       }
-      
-      
       
     }
     
@@ -163,7 +149,6 @@
         transitionProgressObject.callBack = null;
       }
     }
-    
     
     /**
      * Update the previous, next button style.
@@ -203,7 +188,6 @@
     function moveOriginalCardsToContainer() {
       originalCardContainer.append(originalCards);
     }
-    
     
     /**
      * Populate required pages.
