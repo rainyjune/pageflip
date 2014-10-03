@@ -77,7 +77,7 @@
         alert("The is the last page.");
         return false;
       }
-      var currentPageElement = $('div[data-pageid="'+(currentPageIndex+1)+'"]');
+      var currentPageElement = $('div[data-pageId="'+(currentPageIndex+1)+'"]');
       
       slidePageElement(currentPageElement, function() {
         visualContainer.append(currentPageElement);
@@ -101,7 +101,7 @@
         alert("The is the first page.");
         return false;
       }
-      var currentPageElement = $('div[data-pageid="'+(currentPageIndex)+'"]');
+      var currentPageElement = $('div[data-pageId="'+(currentPageIndex)+'"]');
       
       visualContainer.prepend(currentPageElement);
       slidePageElement(currentPageElement, function() {
@@ -217,7 +217,6 @@
         if (visualContainer.children().length === 3) {
           var visiblePageIds = getVisiblePageIds();
           
-          //var currentPageId = parseInt(visualContainer.children().eq(0).attr("data-pageId"));
           var currentPageId = currentPageIndex + 1;
           var notReachableId = findNotReachableNumber(currentPageId, visiblePageIds);
           var toBeReplacedElement = $("div[data-pageId='"+notReachableId+"']");
