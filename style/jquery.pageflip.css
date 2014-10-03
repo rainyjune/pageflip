@@ -17,6 +17,10 @@
   left: 0;
   right: 0;
   bottom: 0;
+
+}
+
+.transition {
   -webkit-transition-duration: 1s;
   -o-transition-duration: 1s;
   -moz-transition-duration: 1s;
@@ -26,6 +30,15 @@
   -o-transition-property: -o-transform;
   transition-property: transform;
 }
+
+.slideLeft {
+  transform: translateX(-1024px);  
+}
+
+.slideRight {
+  transform: translateX(0) !important;  
+}
+
 
 #displayContainer > div:nth-child(1) {
   z-index: 3;

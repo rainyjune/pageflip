@@ -12,6 +12,11 @@
     
     var prevBtn = null,
         nextBtn = null;
+
+    var transitionProgressObject = {
+      element: null,
+      callBack: null
+      };
     
     /**
      * The init function.
@@ -71,14 +76,27 @@
         alert("The is the last page.");
         return false;
       }
-      
+      var currentPageElement = $('div[data-pageid="'+(currentPageIndex+1)+'"]');
+      //currentPageElement.addClass();
+      slidePageElement(currentPageElement, function() {
+        
+        currentPageElement.removeClass("transition slideLeft");
+        visualContainer.append(currentPageElement);
+        currentPageIndex++;
+        populateVisiblePages();
+        
+        updatePager();
+      }, 'next');
+      return false;
+      /*
       // Move current page to bottom most
-      visualContainer.append($('div[data-pageid="'+(currentPageIndex+1)+'"]'));
+      visualContainer.append(currentPageElement);
       currentPageIndex++;
       populateVisiblePages();
       
       updatePager();
       return false;
+      */
     }
     
     
@@ -93,14 +111,66 @@
         alert("The is the first page.");
         return false;
       }
+      var currentPageElement = $('div[data-pageid="'+(currentPageIndex)+'"]');
       
+      visualContainer.prepend(currentPageElement);
+      slidePageElement(currentPageElement, function() {
+        //debugger;
+        currentPageElement.css("transform", "initial");
+        currentPageElement.removeClass("transition slideRight");
+        // Move current page to bottom most
+        
+        currentPageIndex--;
+        populateVisiblePages();
+        
+        updatePager();
+      },'previous');
+      return false;
+      /*
       // Move current page to bottom most
-      visualContainer.prepend($('div[data-pageid="'+(currentPageIndex)+'"]'));
+      visualContainer.prepend();
       currentPageIndex--;
       populateVisiblePages();
       
       updatePager();
+      */
       return false;
+    }
+    
+    function slidePageElement(pageElement, slideCallBack, slideType) {
+      if (slideType=="next") {
+        pageElement.addClass("transition slideLeft");
+        tempFunc(pageElement, slideCallBack);
+      } else {
+        pageElement.css("transform", "translateX(-1024px)");
+        
+        
+        setTimeout(function(){
+          pageElement.addClass("transition slideRight");
+          tempFunc(pageElement, slideCallBack);
+        }, 0);
+      }
+      
+      
+      
+    }
+    
+    function tempFunc(pageElement, slideCallBack){
+      cancelTransition();
+      
+      transitionProgressObject.element = pageElement;
+      transitionProgressObject.callBack = slideCallBack;
+      
+      pageElement.one("transitionend", cancelTransition);
+    }
+    
+    function cancelTransition(){
+      if (transitionProgressObject.element) {
+        transitionProgressObject.element.off("transitionend");
+        transitionProgressObject.callBack();
+        transitionProgressObject.element = null;
+        transitionProgressObject.callBack = null;
+      }
     }
     
     
@@ -149,9 +219,13 @@
      *
      */
     function populateVisiblePages() {
-      var visiblePageIds = mathGame(currentPageIndex);
-      var requiredPages = getRequiredPages(visiblePageIds);
-      fetchPagesAndPopulate(requiredPages);
+      try {
+        var visiblePageIds = mathGame(currentPageIndex);
+        var requiredPages = getRequiredPages(visiblePageIds);
+        fetchPagesAndPopulate(requiredPages);
+      } catch (e) {
+        
+      }
     }
     
     /**
@@ -169,7 +243,8 @@
         if (visualContainer.children().length === 3) {
           var visiblePageIds = getVisiblePageIds();
           
-          var currentPageId = visualContainer.children().eq(0).attr("data-pageId");
+          //var currentPageId = parseInt(visualContainer.children().eq(0).attr("data-pageId"));
+          var currentPageId = currentPageIndex + 1;
           var notReachableId = findNotReachableNumber(currentPageId, visiblePageIds);
           var toBeReplacedElement = $("div[data-pageId='"+notReachableId+"']");
           
@@ -238,7 +313,7 @@
     function getVisiblePageIds() {
       var result = [];
       $.each(visualContainer.children(), function(index, page){
-        result.push($(page).attr("data-pageId"));
+        result.push(parseInt($(page).attr("data-pageId")));
       });
       return result;
     }
@@ -259,6 +334,9 @@
           result = thisPageId;
           break;
         }
+      }
+      if (result==null) {
+        debugger;
       }
       return result;
     }
