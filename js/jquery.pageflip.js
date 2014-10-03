@@ -63,6 +63,17 @@
         }
         e.preventDefault(); // prevent the default action (scroll / move caret)
       });
+      
+      // There is no transitionstart event yet, we create this custome event handler.
+      visualContainer.on("transition_start", function(e, eventInfo){
+        if (eventInfo === "next") {
+          currentPageIndex++;
+        } else {
+          currentPageIndex--;
+        }
+        updatePager();
+        return false;
+      });
     }
     
     
@@ -78,13 +89,12 @@
         return false;
       }
       var currentPageElement = $('div[data-pageId="'+(currentPageIndex+1)+'"]');
+      visualContainer.trigger("transition_start", "next");
       
       slidePageElement(currentPageElement, function() {
         visualContainer.append(currentPageElement);
         currentPageElement.removeClass("transition slideLeft");
-        currentPageIndex++;
         populateVisiblePages();
-        updatePager();
       }, 'next');
       return false;
     }
@@ -102,16 +112,13 @@
         return false;
       }
       var currentPageElement = $('div[data-pageId="'+(currentPageIndex)+'"]');
+      visualContainer.trigger("transition_start", "previous");
       
       visualContainer.prepend(currentPageElement);
       slidePageElement(currentPageElement, function() {
         currentPageElement.css("transform", "initial");
         currentPageElement.removeClass("transition slideRight");
-        
-        currentPageIndex--;
         populateVisiblePages();
-        
-        updatePager();
       },'previous');
       return false;
     }
