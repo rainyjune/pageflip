@@ -8,6 +8,7 @@
     var visualContainer = null,
         originalCardContainer = null;
         
+    // Current page index, zero based.
     var currentPageIndex = 0;
     
     var prevBtn = null,
@@ -72,12 +73,11 @@
      */
     function showNextSlide(e) {
       e.preventDefault();
-      if (currentPageIndex == originalCardsCount-1) {
+      if (currentPageIndex === originalCardsCount-1) {
         alert("The is the last page.");
         return false;
       }
       var currentPageElement = $('div[data-pageid="'+(currentPageIndex+1)+'"]');
-      //currentPageElement.addClass();
       slidePageElement(currentPageElement, function() {
         
         currentPageElement.removeClass("transition slideLeft");
@@ -88,15 +88,6 @@
         updatePager();
       }, 'next');
       return false;
-      /*
-      // Move current page to bottom most
-      visualContainer.append(currentPageElement);
-      currentPageIndex++;
-      populateVisiblePages();
-      
-      updatePager();
-      return false;
-      */
     }
     
     
