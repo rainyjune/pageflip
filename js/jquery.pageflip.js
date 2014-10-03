@@ -78,13 +78,12 @@
         return false;
       }
       var currentPageElement = $('div[data-pageid="'+(currentPageIndex+1)+'"]');
+      
       slidePageElement(currentPageElement, function() {
-        
-        currentPageElement.removeClass("transition slideLeft");
         visualContainer.append(currentPageElement);
+        currentPageElement.removeClass("transition slideLeft");
         currentPageIndex++;
         populateVisiblePages();
-        
         updatePager();
       }, 'next');
       return false;
