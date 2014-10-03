@@ -1,3 +1,3 @@
 ﻿$(function () {
-  $(".wrapper").ebook();
+  $(".wrapper").pageflip();
 });

@@ -1,0 +1,57 @@
+.wrapper {
+  margin: 0;
+  padding: 0;
+  width: 1024px;
+  height: 768px;
+  border: 1px solid blue;
+  margin-left: auto;
+  margin-right: auto;
+
+  position: relative;
+  overflow: hidden;
+}
+
+#displayContainer > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  -webkit-transition-duration: 1s;
+  -o-transition-duration: 1s;
+  -moz-transition-duration: 1s;
+  transition-duration: 1s;
+  -webkit-transition-property: transform;
+  -moz-transition-property: transform;
+  -o-transition-property: transform;
+  transition-property: transform;
+}
+
+#displayContainer > div:nth-child(1) {
+  z-index: 3;
+}
+
+#displayContainer > div:nth-child(2) {
+  z-index: 2;
+}
+
+#displayContainer > div:nth-child(3) {
+  z-index: 1;
+}
+
+#originalPagesContainer {
+  display: none;
+}
+
+
+/* Buttons */
+a.prevBtn, a.nextBtn {
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: green;
+  border-radius: 5px;
+}
+
+a.disabledButton {
+  background-color: gray;
+}
