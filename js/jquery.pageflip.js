@@ -19,6 +19,9 @@
       element: null,
       callBack: null
       };
+      
+    var testCount = 0;
+    var testTimer = null;
     
     /**
      * The init function.
@@ -115,6 +118,9 @@
       e && e.preventDefault();
       if (currentPageIndex === originalCardsCount-1) {
         alert("The is the last page.");
+        /*
+        testTimer = setInterval(showPrevSlide, 1);
+        */
         return false;
       }
       
@@ -140,6 +146,11 @@
       e && e.preventDefault();
       if (currentPageIndex === 0) {
         alert("The is the first page.");
+        /*
+        if (testTimer) {
+          clearInterval(testTimer);
+        }
+        */
         return false;
       }
       
@@ -172,10 +183,12 @@
         pageElement.addClass("transition slideLeft");
         visualContainer.trigger("transition_start", {"slideType": slideType, "element": pageElement});
       } else {
-        pageElement.css("transform", "translateX(-1024px)");        
+        // Make sure the custom transition_start event is triggered first. Important!
+        visualContainer.trigger("transition_start", {"slideType": slideType, "element": pageElement});
+        pageElement.css("transform", "translateX(-1024px)");
+        // We should specify a time interval other than zero. 
         setTimeout(function(){
           pageElement.addClass("transition slideRight");
-          visualContainer.trigger("transition_start", {"slideType": slideType, "element": pageElement});
         }, 100);
       }
     }
