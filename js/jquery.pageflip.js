@@ -107,7 +107,7 @@
      */
     function showPrevSlide(e) {
       e && e.preventDefault();
-      if (currentPageIndex == 0) {
+      if (currentPageIndex === 0) {
         alert("The is the first page.");
         return false;
       }
@@ -123,6 +123,13 @@
       return false;
     }
     
+    /**
+     * Slide the page DOM element.
+     * @param {DOMElement} pageElement The Dom element be slided.
+     * @param {Function} slideCallBack The function called after transtiion end.
+     * @param {String} slideType The slide type, should be 'next' or 'previous'.
+     * 
+     */
     function slidePageElement(pageElement, slideCallBack, slideType) {
       if (slideType=="next") {
         pageElement.addClass("transition slideLeft");
