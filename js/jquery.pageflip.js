@@ -101,6 +101,9 @@
       });
     }
     
+    /**
+     * Reset the variable transitionProgressObject.
+     */
     function resetTransitionProgressObject() {
       transitionProgressObject = {
         slideType: null,
@@ -164,6 +167,10 @@
       return false;
     }
     
+    /**
+     * Check if there is a transition is in progress or not.
+     * @return {Boolean} 
+     */
     function isTransitionFinished() {
       return transitionProgressObject.element === null;
     }
@@ -171,7 +178,6 @@
     /**
      * Slide the page DOM element by updating its css rules.
      * @param {DOMElement} pageElement The Dom element be slided.
-     * @param {Function} slideCallBack The function called after transtiion end.
      * @param {String} slideType The slide type, should be 'next' or 'previous'.
      * 
      */
