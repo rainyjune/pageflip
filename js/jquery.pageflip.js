@@ -15,6 +15,7 @@
         nextBtn = null;
 
     var transitionProgressObject = {
+      slideType: null,
       element: null,
       callBack: null
       };
@@ -29,7 +30,8 @@
       buildOriginalCardContainer();
       moveOriginalCardsToContainer();
       buildVisualContainer();
-      populateVisiblePages();
+      //populateVisiblePages();
+      populateVisiblePages2();
       
       prevBtn = $(".prevBtn");
       nextBtn = $(".nextBtn");
@@ -66,16 +68,45 @@
       
       // There is no transitionstart event yet, we create this custome event handler.
       visualContainer.on("transition_start", function(e, eventInfo){
-        if (eventInfo === "next") {
+        if (eventInfo.slideType === "next") {
           currentPageIndex++;
         } else {
           currentPageIndex--;
         }
+        transitionProgressObject.slideType = eventInfo.slideType;
+        transitionProgressObject.element = eventInfo.element;
         updatePager();
+        return false;
+      });
+      
+      /**
+       * Add event listener for the transition end event.
+       * @param {Event} e
+       * @return {Boolean} false
+       */
+      visualContainer.on("transitionend", function(e) {
+        console.log("transition end........,", e.target, e);
+        if (transitionProgressObject.element && transitionProgressObject.slideType === "next") {
+          visualContainer.append(transitionProgressObject.element);
+        }
+        var pageElement = transitionProgressObject.element;
+        
+        pageElement.removeClass("transition").removeClass("slideRight").removeClass("slideLeft");
+        pageElement.css("transform", "");
+        
+        resetTransitionProgressObject();
+        //populateVisiblePages();
         return false;
       });
     }
     
+    function resetTransitionProgressObject() {
+      transitionProgressObject = {
+        slideType: null,
+        element: null,
+        callBack: null
+      };
+    }
     
     /**
      * Show the next page.
@@ -88,11 +119,15 @@
         alert("The is the last page.");
         return false;
       }
+      
+      if (!isTransitionFinished()) {
+        console.log("not finished......., next");
+        return false;
+      }
+      
       var currentPageElement = $('div[data-pageId="'+(currentPageIndex+1)+'"]');
       
       slidePageElement(currentPageElement, function() {
-        visualContainer.append(currentPageElement);
-        populateVisiblePages();
       }, 'next');
       return false;
     }
@@ -109,17 +144,26 @@
         alert("The is the first page.");
         return false;
       }
+      
+      if (!isTransitionFinished()) {
+        console.log("not finished......., prev", transitionProgressObject.element);
+        return false;
+      }
+      
       var currentPageElement = $('div[data-pageId="'+(currentPageIndex)+'"]');
       
       visualContainer.prepend(currentPageElement);
       slidePageElement(currentPageElement, function() {
-        populateVisiblePages();
       },'previous');
       return false;
     }
     
+    function isTransitionFinished() {
+      return transitionProgressObject.element === null;
+    }
+    
     /**
-     * Slide the page DOM element.
+     * Slide the page DOM element by updating its css rules.
      * @param {DOMElement} pageElement The Dom element be slided.
      * @param {Function} slideCallBack The function called after transtiion end.
      * @param {String} slideType The slide type, should be 'next' or 'previous'.
@@ -128,20 +172,19 @@
     function slidePageElement(pageElement, slideCallBack, slideType) {
       if (slideType=="next") {
         pageElement.addClass("transition slideLeft");
-        visualContainer.trigger("transition_start", "next");
-        tempFunc(pageElement, slideCallBack);
+        visualContainer.trigger("transition_start", {"slideType": slideType, "element": pageElement});
       } else {
-        pageElement.css("transform", "translateX(-1024px)");
-        visualContainer.trigger("transition_start", "previous");
-        
+        pageElement.css("transform", "translateX(-1024px)");        
         setTimeout(function(){
           pageElement.addClass("transition slideRight");
-          tempFunc(pageElement, slideCallBack);
-        }, 0);
+          visualContainer.trigger("transition_start", {"slideType": slideType, "element": pageElement});
+        }, 100);
       }
-      
     }
     
+    /**
+     * Not in use now.
+     */
     function tempFunc(pageElement, slideCallBack){
       cancelTransition();
       
@@ -153,6 +196,7 @@
     
     /**
      * Cancel page slide transition.
+     * Note: not in use now.
      */
     function cancelTransition(){
       if (transitionProgressObject && transitionProgressObject.element) {
@@ -216,8 +260,15 @@
         var requiredPages = getRequiredPages(visiblePageIds);
         fetchPagesAndPopulate(requiredPages);
       } catch (e) {
-        
+        debugger;
       }
+    }
+    
+    function populateVisiblePages2() {
+      $.each(originalCards, function(index, page){
+        var thisPage = $(page).clone().attr("data-pageId", index + 1);
+        visualContainer.append(thisPage);
+      });
     }
     
     /**
