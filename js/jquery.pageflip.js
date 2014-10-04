@@ -30,7 +30,6 @@
       buildOriginalCardContainer();
       moveOriginalCardsToContainer();
       buildVisualContainer();
-      //populateVisiblePages();
       populateVisiblePages2();
       
       prevBtn = $(".prevBtn");
@@ -95,7 +94,6 @@
         pageElement.css("transform", "");
         
         resetTransitionProgressObject();
-        //populateVisiblePages();
         return false;
       });
     }
@@ -224,17 +222,7 @@
     /**
      * Populate required pages.
      *
-     */
-    function populateVisiblePages() {
-      try {
-        var visiblePageIds = mathGame(currentPageIndex);
-        var requiredPages = getRequiredPages(visiblePageIds);
-        fetchPagesAndPopulate(requiredPages);
-      } catch (e) {
-        debugger;
-      }
-    }
-    
+     */    
     function populateVisiblePages2() {
       $.each(originalCards, function(index, page){
         var thisPage = $(page).clone().attr("data-pageId", index + 1);
