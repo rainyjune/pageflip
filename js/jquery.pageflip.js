@@ -183,35 +183,6 @@
     }
     
     /**
-     * Not in use now.
-     */
-    function tempFunc(pageElement, slideCallBack){
-      cancelTransition();
-      
-      transitionProgressObject.element = pageElement;
-      transitionProgressObject.callBack = slideCallBack;
-      
-      pageElement.one("transitionend", cancelTransition);
-    }
-    
-    /**
-     * Cancel page slide transition.
-     * Note: not in use now.
-     */
-    function cancelTransition(){
-      if (transitionProgressObject && transitionProgressObject.element) {
-        var pageElement = transitionProgressObject.element;
-        pageElement.css("transform", "initial");
-        pageElement.removeClass("transition").removeClass("slideRight").removeClass("slideLeft");
-        
-        pageElement.off("transitionend");
-        transitionProgressObject.callBack();
-        transitionProgressObject.element = null;
-        transitionProgressObject.callBack = null;
-      }
-    }
-    
-    /**
      * Update the previous, next button style.
      */
     function updatePager() {
