@@ -93,7 +93,6 @@
       
       slidePageElement(currentPageElement, function() {
         visualContainer.append(currentPageElement);
-        currentPageElement.removeClass("transition slideLeft");
         populateVisiblePages();
       }, 'next');
       return false;
@@ -116,8 +115,6 @@
       
       visualContainer.prepend(currentPageElement);
       slidePageElement(currentPageElement, function() {
-        currentPageElement.css("transform", "initial");
-        currentPageElement.removeClass("transition slideRight");
         populateVisiblePages();
       },'previous');
       return false;
@@ -154,9 +151,16 @@
       pageElement.one("transitionend", cancelTransition);
     }
     
+    /**
+     * Cancel page slide transition.
+     */
     function cancelTransition(){
-      if (transitionProgressObject.element) {
-        transitionProgressObject.element.off("transitionend");
+      if (transitionProgressObject && transitionProgressObject.element) {
+        var pageElement = transitionProgressObject.element;
+        pageElement.css("transform", "initial");
+        pageElement.removeClass("transition").removeClass("slideRight").removeClass("slideLeft");
+        
+        pageElement.off("transitionend");
         transitionProgressObject.callBack();
         transitionProgressObject.element = null;
         transitionProgressObject.callBack = null;
