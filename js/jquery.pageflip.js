@@ -30,7 +30,7 @@
       buildOriginalCardContainer();
       moveOriginalCardsToContainer();
       buildVisualContainer();
-      populateVisiblePages2();
+      populateVisiblePages();
       
       prevBtn = $(".prevBtn");
       nextBtn = $(".nextBtn");
@@ -223,7 +223,7 @@
      * Populate required pages.
      *
      */    
-    function populateVisiblePages2() {
+    function populateVisiblePages() {
       $.each(originalCards, function(index, page){
         var thisPage = $(page).clone().attr("data-pageId", index + 1);
         visualContainer.append(thisPage);
