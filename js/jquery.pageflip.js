@@ -83,7 +83,7 @@
      * @return {Boolean} false
      */
     function showNextSlide(e) {
-      e.preventDefault();
+      e && e.preventDefault();
       if (currentPageIndex === originalCardsCount-1) {
         alert("The is the last page.");
         return false;
@@ -106,7 +106,7 @@
      * @return {Boolean} false
      */
     function showPrevSlide(e) {
-      e.preventDefault();
+      e && e.preventDefault();
       if (currentPageIndex == 0) {
         alert("The is the first page.");
         return false;
