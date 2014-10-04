@@ -16,8 +16,7 @@
 
     var transitionProgressObject = {
       slideType: null,
-      element: null,
-      callBack: null
+      element: null
       };
       
     var testCount = 0;
@@ -105,8 +104,7 @@
     function resetTransitionProgressObject() {
       transitionProgressObject = {
         slideType: null,
-        element: null,
-        callBack: null
+        element: null
       };
     }
     
