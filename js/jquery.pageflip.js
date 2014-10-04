@@ -130,8 +130,7 @@
       
       var currentPageElement = $('div[data-pageId="'+(currentPageIndex+1)+'"]');
       
-      slidePageElement(currentPageElement, function() {
-      }, 'next');
+      slidePageElement(currentPageElement, 'next');
       return false;
     }
     
@@ -161,8 +160,7 @@
       var currentPageElement = $('div[data-pageId="'+(currentPageIndex)+'"]');
       
       visualContainer.prepend(currentPageElement);
-      slidePageElement(currentPageElement, function() {
-      },'previous');
+      slidePageElement(currentPageElement, 'previous');
       return false;
     }
     
@@ -177,7 +175,7 @@
      * @param {String} slideType The slide type, should be 'next' or 'previous'.
      * 
      */
-    function slidePageElement(pageElement, slideCallBack, slideType) {
+    function slidePageElement(pageElement, slideType) {
       if (slideType=="next") {
         pageElement.addClass("transition slideLeft");
         visualContainer.trigger("transition_start", {"slideType": slideType, "element": pageElement});
