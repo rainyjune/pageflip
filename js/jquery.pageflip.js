@@ -128,7 +128,8 @@
       
       if (!isTransitionFinished()) {
         console.log("not finished......., next");
-        return false;
+        cancelPageTransition();
+        //return false;
       }
       
       var currentPageElement = $('div[data-pageId="'+(currentPageIndex+1)+'"]');
@@ -157,13 +158,21 @@
       
       if (!isTransitionFinished()) {
         console.log("not finished......., prev", transitionProgressObject.element);
-        return false;
+        cancelPageTransition();
+        //return false;
       }
       
       var currentPageElement = $('div[data-pageId="'+(currentPageIndex)+'"]');
       
       visualContainer.prepend(currentPageElement);
       slidePageElement(currentPageElement, 'previous');
+      return false;
+    }
+    
+    function cancelPageTransition() {
+      // Do nothing if transition finished.
+      if (isTransitionFinished()) { return false; }
+      visualContainer.trigger("transitionend");
       return false;
     }
     
