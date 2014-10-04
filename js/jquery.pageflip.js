@@ -89,7 +89,6 @@
         return false;
       }
       var currentPageElement = $('div[data-pageId="'+(currentPageIndex+1)+'"]');
-      visualContainer.trigger("transition_start", "next");
       
       slidePageElement(currentPageElement, function() {
         visualContainer.append(currentPageElement);
@@ -111,7 +110,6 @@
         return false;
       }
       var currentPageElement = $('div[data-pageId="'+(currentPageIndex)+'"]');
-      visualContainer.trigger("transition_start", "previous");
       
       visualContainer.prepend(currentPageElement);
       slidePageElement(currentPageElement, function() {
@@ -130,9 +128,11 @@
     function slidePageElement(pageElement, slideCallBack, slideType) {
       if (slideType=="next") {
         pageElement.addClass("transition slideLeft");
+        visualContainer.trigger("transition_start", "next");
         tempFunc(pageElement, slideCallBack);
       } else {
-        pageElement.css("transform", "translateX(-1024px)"); 
+        pageElement.css("transform", "translateX(-1024px)");
+        visualContainer.trigger("transition_start", "previous");
         
         setTimeout(function(){
           pageElement.addClass("transition slideRight");
