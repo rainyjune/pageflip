@@ -93,6 +93,7 @@
         }
         var pageElement = transitionProgressObject.element;
         
+        // Remove the .transition CSS class before remove the transform CSS rule. !important!
         pageElement.removeClass("transition").removeClass("slideRight").removeClass("slideLeft");
         pageElement.css("transform", "");
         
