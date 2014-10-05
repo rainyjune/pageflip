@@ -1,6 +1,13 @@
 ;(function($){
   var isTransitionSupported = isCssTransitionSupported();
-  $.fn.pageflip = function(){
+  $.fn.pageflip = function(options){
+    var defaultOptions = {
+      keyboardShortCuts: false,
+      quickFlip: false
+    };
+    
+    var mergedOptions = $.extend({}, defaultOptions, options);
+    
     var element = $(this);
     
     var originalCards = null,
@@ -51,22 +58,24 @@
       prevBtn.on("click", showPrevSlide);
       nextBtn.on("click", showNextSlide);
       
-      $(document).keydown(function (e) {
-        switch (e.which) {
-          case 37: // left
-            showPrevSlide(e);
-            break;
-          case 38: // up
-            break;
-          case 39: // right
-            showNextSlide(e);
-            break;
-          case 40: // down
-            break;
-          default: return; // exit this handler for other keys
-        }
-        e.preventDefault(); // prevent the default action (scroll / move caret)
-      });
+      if (mergedOptions.keyboardShortCuts) {
+        $(document).keydown(function (e) {
+          switch (e.which) {
+            case 37: // left
+              showPrevSlide(e);
+              break;
+            case 38: // up
+              break;
+            case 39: // right
+              showNextSlide(e);
+              break;
+            case 40: // down
+              break;
+            default: return; // exit this handler for other keys
+          }
+          e.preventDefault(); // prevent the default action (scroll / move caret)
+        });
+      }
       
       // There is no transitionstart event yet, we create this custome event handler.
       visualContainer.on("transition_start", function(e, eventInfo){
@@ -134,6 +143,9 @@
       
       if (!isTransitionFinished()) {
         console.log("not finished......., next");
+        if (!mergedOptions.quickFlip) {
+          return false;
+        }
         cancelPageTransition();
         //return false;
       }
@@ -164,6 +176,9 @@
       
       if (!isTransitionFinished()) {
         console.log("not finished......., prev", transitionProgressObject.element);
+        if (!mergedOptions.quickFlip) {
+          return false;
+        }
         cancelPageTransition();
         //return false;
       }
