@@ -3,7 +3,9 @@
   $.fn.pageflip = function(options){
     var defaultOptions = {
       keyboardShortCuts: false,
-      quickFlip: false
+      quickFlip: false,
+      touchGesture: false,
+      touchPlugin: null
     };
     
     var mergedOptions = $.extend({}, defaultOptions, options);
@@ -75,6 +77,25 @@
           }
           e.preventDefault(); // prevent the default action (scroll / move caret)
         });
+      }
+      
+      if (mergedOptions.touchGesture && mergedOptions.touchPlugin) {
+        var touchPlugin = mergedOptions.touchPlugin;
+        switch (touchPlugin) {
+          case 'jquerymobile':
+            var pages = visualContainer.children();
+            pages.on("swipeleft", showNextSlide);
+            pages.on("swiperight", showPrevSlide);
+            break;
+          case 'hammer':
+            var pages = visualContainer.children().hammer();
+            pages.on("swipeleft", showNextSlide);
+            pages.on("swiperight", showPrevSlide);
+            break;
+          default:
+            console.warn("The touch plugin is not supported yet.", touchPlugin);
+            break;
+        }
       }
       
       // There is no transitionstart event yet, we create this custome event handler.
