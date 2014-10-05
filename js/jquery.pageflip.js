@@ -266,6 +266,10 @@
     return element;
   };
   
+  /**
+   * Normalize the transition end event name across browers.
+   * @return {String|NULL}
+   */
   function transitionEndEventName() {
     var i,
         undefined,
@@ -286,6 +290,10 @@
     //TODO: throw 'TransitionEnd event is not supported in this browser'; 
   }
   
+  /**
+   * Check for CSS transition support.
+   * @return {Boolean}
+   */
   function isCssTransitionSupported() {
     return !!transitionEndEventName();
   }
