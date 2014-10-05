@@ -1,4 +1,5 @@
 ;(function($){
+  var isTransitionSupported = isCssTransitionSupported();
   $.fn.pageflip = function(){
     var element = $(this);
     
@@ -77,6 +78,10 @@
         transitionProgressObject.slideType = eventInfo.slideType;
         transitionProgressObject.element = eventInfo.element;
         updatePager();
+        
+        if(!isTransitionSupported) {
+          transitionProgressObject.element.trigger("transitionend");
+        }
         return false;
       });
       
@@ -260,4 +265,28 @@
     init();
     return element;
   };
+  
+  function transitionEndEventName() {
+    var i,
+        undefined,
+        el = document.createElement('div'),
+        transitions = {
+            'transition':'transitionend',
+            'OTransition':'otransitionend',  // oTransitionEnd in very old Opera
+            'MozTransition':'transitionend',
+            'WebkitTransition':'webkitTransitionEnd'
+        };
+
+    for (i in transitions) {
+        if (transitions.hasOwnProperty(i) && el.style[i] !== undefined) {
+            return transitions[i];
+        }
+    }
+    return null;
+    //TODO: throw 'TransitionEnd event is not supported in this browser'; 
+  }
+  
+  function isCssTransitionSupported() {
+    return !!transitionEndEventName();
+  }
 })(jQuery);
