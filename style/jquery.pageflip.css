@@ -32,10 +32,18 @@
 }
 
 .slideLeft {
+  -webkit-transform: translateX(-1024px);
+  -moz-transform: translateX(-1024px);
+  -o-transform: translateX(-1024px);
+  -ms-transform: translateX(-1024px);
   transform: translateX(-1024px);  
 }
 
 .slideRight {
+  -webkit-transform: translateX(0) !important;
+  -moz-transform: translateX(0) !important;
+  -o-transform: translateX(0) !important;
+  -ms-transform: translateX(0) !important;
   transform: translateX(0) !important;  
 }
 
