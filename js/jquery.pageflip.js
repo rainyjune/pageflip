@@ -85,12 +85,12 @@
        * @param {Event} e
        * @return {Boolean} false
        */
-      visualContainer.on("transitionend", function(e) {
+      visualContainer.children().on("transitionend", function(e) {
         console.log("transition end........,", e.target, e);
         if (transitionProgressObject.element && transitionProgressObject.slideType === "next") {
           visualContainer.append(transitionProgressObject.element);
         }
-        var pageElement = transitionProgressObject.element;
+        var pageElement = $(e.target) || transitionProgressObject.element;
         if (pageElement) {
           // Remove the .transition CSS class before remove the transform CSS rule. !important!
           pageElement.removeClass("transition").removeClass("slideRight").removeClass("slideLeft");
@@ -173,7 +173,8 @@
     function cancelPageTransition() {
       // Do nothing if transition finished.
       if (isTransitionFinished()) { return false; }
-      visualContainer.trigger("transitionend");
+      //visualContainer.trigger("transitionend");
+      transitionProgressObject.element.trigger("transitionend");
       return false;
     }
     
