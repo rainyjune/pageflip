@@ -91,6 +91,19 @@
             pages.on("swipeleft", showNextSlide);
             pages.on("swiperight", showPrevSlide);
             break;
+          case "toe":
+            var pages = visualContainer.children();
+            var handleSwipe = function (e) {
+              var direction = e.direction;
+              if (direction === "left") {
+                showNextSlide(e);
+              } else if (direction === "right") {
+                showPrevSlide(e);
+              }
+              return false;
+            };
+            pages.on('swipe', handleSwipe);
+            break;
           default:
             console.warn("The touch plugin is not supported yet.", touchPlugin);
             break;
@@ -319,6 +332,8 @@
       touchPlugin = "hammer";
     } else if ($.mobile) {
       touchPlugin = "jquerymobile";
+    } else if ($.toe) {
+      touchPlugin = "toe";
     }
     $(".pageFlipWrapper").pageflip({
       keyboardShortCuts: true,
