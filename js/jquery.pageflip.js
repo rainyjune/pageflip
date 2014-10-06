@@ -36,6 +36,7 @@
      * The init function.
      */
     function init() {
+      element.addClass("pageFlipWrapper");
       originalCards = element.children();
       originalCardsCount = originalCards.length;
       
@@ -43,9 +44,7 @@
       moveOriginalCardsToContainer();
       buildVisualContainer();
       populateVisiblePages();
-      
-      prevBtn = $(".prevBtn");
-      nextBtn = $(".nextBtn");
+      buildPagerContainer();
       
       addListeners();
       updatePager();
@@ -268,7 +267,7 @@
      * Create a new container to hold all the pages to be displayed.
      */
     function buildVisualContainer() {
-      visualContainer = $("<div id='displayContainer'></div>");
+      visualContainer = $("<div class='displayContainer'></div>");
       element.append(visualContainer);
     }
     
@@ -276,7 +275,7 @@
      * Create a new container to place all these pages.
      */
     function buildOriginalCardContainer() {
-      originalCardContainer = $("<div id='originalPagesContainer'></div>");
+      originalCardContainer = $("<div class='originalPagesContainer'></div>");
       element.append(originalCardContainer);
     }
     
@@ -296,6 +295,15 @@
         var thisPage = $(page).clone().attr("data-pageId", index + 1);
         visualContainer.append(thisPage);
       });
+    }
+    
+    function buildPagerContainer() {
+      var pagerContainer = $("<div class='pagerContainer'></div>");
+      prevBtn = $("<a href='#' class='prevBtn'>Previous Button</a>");
+      nextBtn = $("<a href='#' class='nextBtn'>Next Button</a>");
+      pagerContainer.append(prevBtn);
+      pagerContainer.append(nextBtn);
+      element.append(pagerContainer);
     }
 
     init();
