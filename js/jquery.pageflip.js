@@ -311,6 +311,24 @@
   };
   
   /**
+   * Autorun.
+   */
+  $(function(){
+    var touchPlugin = null;
+    if ($.fn.hammer) {
+      touchPlugin = "hammer";
+    } else if ($.mobile) {
+      touchPlugin = "jquerymobile";
+    }
+    $(".pageFlipWrapper").pageflip({
+      keyboardShortCuts: true,
+      quickFlip: true,
+      touchGesture: true,
+      touchPlugin: touchPlugin
+    });
+  });
+  
+  /**
    * Normalize the transition end event name across browers.
    * @return {String|NULL}
    */
