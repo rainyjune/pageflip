@@ -104,6 +104,10 @@
             };
             pages.on('swipe', handleSwipe);
             break;
+          case "doubletap":
+            var pages = visualContainer.children();
+            pages.addSwipeEvents().on('swipeleft', showNextSlide).on("swiperight", showPrevSlide);
+            break;
           default:
             console.warn("The touch plugin is not supported yet.", touchPlugin);
             break;
@@ -334,6 +338,8 @@
       touchPlugin = "jquerymobile";
     } else if ($.toe) {
       touchPlugin = "toe";
+    } else if ($.fn.addSwipeEvents) {
+      touchPlugin = "doubletap";
     }
     $(".pageFlipWrapper").pageflip({
       keyboardShortCuts: true,
