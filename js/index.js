@@ -1,3 +1,10 @@
 ﻿$(function () {
-  $(".wrapper").pageflip();
+  
+  $(".wrapper").pageflipPublic({
+    keyboardShortCuts: true,
+    quickFlip: true,
+    touchGesture: true,
+    touchPlugin: 'hammer'
+  });
+  
 });
