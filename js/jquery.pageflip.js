@@ -187,7 +187,7 @@
         //return false;
       }
       
-      var currentPageElement = $('div[data-pageId="'+(currentPageIndex+1)+'"]');
+      var currentPageElement = element.find('div[data-pageId="'+(currentPageIndex+1)+'"]');
       
       slidePageElement(currentPageElement, 'next');
       return false;
@@ -220,7 +220,7 @@
         //return false;
       }
       
-      var currentPageElement = $('div[data-pageId="'+(currentPageIndex)+'"]');
+      var currentPageElement = element.find('div[data-pageId="'+(currentPageIndex)+'"]');
       
       visualContainer.prepend(currentPageElement);
       slidePageElement(currentPageElement, 'previous');
@@ -325,6 +325,14 @@
 
     init();
     return element;
+  };
+  
+  $.fn.pageflipPublic = function(options) {
+    this.each(function(){
+      var thisZone = $(this);
+      thisZone.pageflip(options);
+    });
+    return this;
   };
   
   /**
