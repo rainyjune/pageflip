@@ -349,7 +349,7 @@
     } else if ($.fn.addSwipeEvents) {
       touchPlugin = "doubletap";
     }
-    $(".pageFlipWrapper").pageflip({
+    $(".pageFlipWrapper").pageflipPublic({
       keyboardShortCuts: true,
       quickFlip: true,
       touchGesture: true,
