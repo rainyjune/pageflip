@@ -5,7 +5,8 @@
       factory($);
     });
   } else {
-    factory(jQuery);
+    var $ = window.jQuery ? jQuery  : Zepto;
+    factory($);
   }
 }(function($){
   var isTransitionSupported = isCssTransitionSupported();
@@ -90,6 +91,11 @@
       if (mergedOptions.touchGesture && mergedOptions.touchPlugin) {
         var touchPlugin = mergedOptions.touchPlugin;
         switch (touchPlugin) {
+          case "zepto":
+            var pages = visualContainer.children();
+            pages.on("swipeLeft", showNextSlide);
+            pages.on("swipeRight", showPrevSlide);
+            break;
           case 'jquerymobile':
             var pages = visualContainer.children();
             pages.on("swipeleft", showNextSlide);
@@ -349,7 +355,9 @@
    */
   $(function(){
     var touchPlugin = null;
-    if ($.fn.hammer) {
+    if (window.Zepto && window.Zepto.fn.swipeLeft) {
+      touchPlugin = "zepto";
+    } else if ($.fn.hammer) {
       touchPlugin = "hammer";
     } else if ($.mobile) {
       touchPlugin = "jquerymobile";
