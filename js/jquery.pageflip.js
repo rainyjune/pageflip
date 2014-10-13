@@ -1,4 +1,13 @@
-;(function($){
+;(function(factory){
+  if (typeof define === "function" && define.cmd) {
+    define(function(require, exports, module){
+      var $ = require('jquery');
+      factory($);
+    });
+  } else {
+    factory(jQuery);
+  }
+}(function($){
   var isTransitionSupported = isCssTransitionSupported();
   $.fn.pageflip = function(options){
     var defaultOptions = {
@@ -388,4 +397,4 @@
   function isCssTransitionSupported() {
     return !!transitionEndEventName();
   }
-})(jQuery);
+}));
