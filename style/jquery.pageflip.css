@@ -46,6 +46,10 @@
   transform: translateX(0) !important;  
 }
 
+.pageFlipWrapper .displayContainer > div {
+  background-color: white;
+  overflow-y: scroll;
+}
 
 .pageFlipWrapper .displayContainer > div:nth-child(1) {
   z-index: 3;
