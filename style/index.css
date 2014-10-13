@@ -7,7 +7,7 @@ html, body {
 }
 
 #myBook {
-  border: 1px solid blue;
+  outline: 1px solid blue;
   width: 100%;
   height: 100%;
 }
