@@ -1,3 +1,7 @@
+/**
+ * Displays a collection, such as a set of photos, one item at a time.
+ * @author rainyjune<rainyjune@live.cn>
+ */
 ;(function(factory){
   if (typeof define === "function" && define.cmd) {
     define(function(require, exports, module){
