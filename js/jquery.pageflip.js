@@ -160,7 +160,7 @@
         if (pageElement) {
           // Remove the .transition CSS class before remove the transform CSS rule. !important!
           pageElement.removeClass("transition").removeClass("slideRight").removeClass("slideLeft");
-          pageElement.css("transform", "");
+          pageElement.css({"-webkit-transform": "","transform": ""});
         }
         
         resetTransitionProgressObject();
@@ -265,13 +265,17 @@
      * 
      */
     function slidePageElement(pageElement, slideType) {
+      var screenWidth = $(window).width();
       if (slideType=="next") {
         pageElement.addClass("transition slideLeft");
         visualContainer.trigger("transition_start", {"slideType": slideType, "element": pageElement});
       } else {
         // Make sure the custom transition_start event is triggered first. Important!
         visualContainer.trigger("transition_start", {"slideType": slideType, "element": pageElement});
-        pageElement.css("transform", "translateX(-1024px)");
+        pageElement.css({
+          "-webkit-transform": "translateX(-"+screenWidth+"px)",
+          "transform": "translateX(-"+screenWidth+"px)"
+        });
         // We should specify a time interval other than zero. 
         setTimeout(function(){
           pageElement.addClass("transition slideRight");
