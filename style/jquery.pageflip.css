@@ -49,6 +49,7 @@
 .pageFlipWrapper .displayContainer > div {
   background-color: white;
   overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .pageFlipWrapper .displayContainer > div:nth-child(1) {
