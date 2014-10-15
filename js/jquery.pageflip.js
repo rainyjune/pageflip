@@ -336,7 +336,7 @@
      */    
     function populateVisiblePages() {
       $.each(originalCards, function(index, page){
-        var thisPage = $(page).clone().attr("data-pageId", index + 1);
+        var thisPage = $(page).attr("data-pageId", index + 1);
         visualContainer.append(thisPage);
       });
     }
