@@ -29,7 +29,7 @@
   -o-transition-property: -o-transform;
   transition-property: transform;
 }
-
+/*
 .pageFlipWrapper .slideLeft {
   -webkit-transform: translateX(-1024px);
   -moz-transform: translateX(-1024px);
@@ -37,6 +37,7 @@
   -ms-transform: translateX(-1024px);
   transform: translateX(-1024px);  
 }
+*/
 
 .pageFlipWrapper .slideRight {
   -webkit-transform: translateX(0) !important;
