@@ -5,7 +5,7 @@
 ;(function(factory){
   if (typeof define === "function" && define.cmd) {
     define(function(require, exports, module){
-      var $ = require('jquery');
+      var $ = require('http://js.eju.com/gallery/zepto/1.1.3/zepto.js');;
       factory($);
     });
   } else {
@@ -367,7 +367,7 @@
    */
   $(function(){
     var touchPlugin = null;
-    if (window.Zepto && window.Zepto.fn.swipeLeft) {
+    if ($.fn.swipeLeft) {
       touchPlugin = "zepto";
     } else if ($.fn.hammer) {
       touchPlugin = "hammer";
