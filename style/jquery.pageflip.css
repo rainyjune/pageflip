@@ -17,6 +17,9 @@
   left: 0;
   right: 0;
   bottom: 0;
+  background-color: white;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .pageFlipWrapper .transition {
@@ -47,11 +50,7 @@
   transform: translateX(0) !important;  
 }
 
-.pageFlipWrapper .displayContainer > div {
-  background-color: white;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
+
 
 .pageFlipWrapper .displayContainer > div:nth-child(1) {
   z-index: 3;
