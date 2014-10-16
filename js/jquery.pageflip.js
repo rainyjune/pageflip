@@ -19,7 +19,8 @@
       keyboardShortCuts: false,
       quickFlip: false,
       touchGesture: false,
-      touchPlugin: null
+      touchPlugin: null,
+      dataPageUrlList: null
     };
     
     var mergedOptions = $.extend({}, defaultOptions, options);
@@ -60,10 +61,64 @@
       populateVisiblePages();
       buildPagerContainer();
       
+      // Handle page URLs.
+      if (mergedOptions.dataPageUrlList && $.isArray(mergedOptions.dataPageUrlList) && mergedOptions.dataPageUrlList.length > 0 ) {
+        ajaxLoadPages(mergedOptions.dataPageUrlList);
+      }
+      
       addListeners();
       updatePager();
     }
     
+    /**
+     * Include all the pages indicated by options.dataPageUrlList
+     * @param {Array} pageList
+     */
+    function ajaxLoadPages(pageList) {
+      var oldCount = originalCardsCount;
+      var listCount = pageList.length;
+      originalCardsCount += listCount;
+      
+      // Add place holder page container
+      $.each(pageList, function(index, page){
+        var i = index + 1;
+        var pageNumber = oldCount + i;
+        addPlaceHolderPage(pageNumber);
+        requestPage(page, pageNumber);
+      });
+    }
+    
+    /**
+     * Add a placeholder div for the page to be rendered.
+     * @param {Number} pageNumber The page number, start from 1.
+     */
+    function addPlaceHolderPage(pageNumber) {
+      var thisPage = $("<div data-pageId='" + pageNumber + "'></div>");
+      var loadingDiv = "<div>Loading....</div>";
+      thisPage.append(loadingDiv);
+      visualContainer.append(thisPage);
+    }
+    
+    /**
+     * Request the sepcified page and then insert it into its container.
+     * @param {String} page The URL of this page.
+     * @param {Number} pageNumber The page number.
+     */
+    function requestPage(page, pageNumber) {
+      $.ajax({
+        type: 'GET',
+        url: page,
+        dataType: 'text',
+        timeout: 3000,
+        context: $('body'),
+        success: function(data){
+          $("div[data-pageId='"+pageNumber+"']").html(data);
+        },
+        error: function(xhr, type){
+          alert('Ajax error!')
+        }
+      })
+    }
     
     /**
      * Add event listeners for this plugin.
@@ -246,6 +301,9 @@
       return false;
     }
     
+    /**
+     * Cancel all transitions.
+     */
     function cancelPageTransition() {
       // Do nothing if transition finished.
       if (isTransitionFinished()) { return false; }
