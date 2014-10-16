@@ -413,11 +413,10 @@
   };
   
   $.fn.pageflipPublic = function(options) {
-    this.each(function(){
+    return this.each(function(){
       var thisZone = $(this);
       thisZone.pageflip(options);
     });
-    return this;
   };
   
   /**
