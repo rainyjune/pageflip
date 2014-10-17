@@ -93,10 +93,10 @@
      * @param {Number} pageNumber The page number, start from 1.
      */
     function addPlaceHolderPage(pageNumber) {
-      var thisPage = $("<div data-pageId='" + pageNumber + "'></div>");
+      var thisPage = $("<div data-pageId='" + pageNumber + "'></div>").addClass("page");
       var loadingDiv = "<div>Loading....</div>";
       thisPage.append(loadingDiv);
-      visualContainer.append(thisPage);
+      visualContainer.prepend(thisPage);
     }
     
     /**
@@ -213,7 +213,7 @@
       visualContainer.children().on("transitionend", function(e) {
         console.log("transition end........,", e.target, e);
         if (transitionProgressObject.element && transitionProgressObject.slideType === "next") {
-          visualContainer.append(transitionProgressObject.element);
+          visualContainer.prepend(transitionProgressObject.element);
         }
         var pageElement = $(e.target) || transitionProgressObject.element;
         if (pageElement) {
@@ -296,7 +296,7 @@
       
       var currentPageElement = element.find('div[data-pageId="'+(currentPageIndex)+'"]');
       
-      visualContainer.prepend(currentPageElement);
+      visualContainer.append(currentPageElement);
       slidePageElement(currentPageElement, 'previous');
       return false;
     }
@@ -394,8 +394,8 @@
      */    
     function populateVisiblePages() {
       $.each(originalCards, function(index, page){
-        var thisPage = $(page).attr("data-pageId", index + 1);
-        visualContainer.append(thisPage);
+        var thisPage = $(page).attr("data-pageId", index + 1).addClass("page");
+        visualContainer.prepend(thisPage);
       });
     }
     
