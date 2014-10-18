@@ -484,16 +484,35 @@
     //return element;
   };
   
+  /**
+   * Registers an event handler for the specified event.
+   * The following custom event is supported: pageselected(Raised when flips to a page.)
+   * @param {String} type The name of the event to handle.
+   * @param {Function} listener The event handler function to associate with the event.
+   * @return {Object}
+   */
   pageflip.prototype.addEventListener = function(type, listener) {
-    this.element.on(type, listener);
+    return this.element.on(type, listener);
   };
   
+  /**
+   * Raises an event of the specified type and with additional properties.
+   * @param {String} type The type (name) of the event.
+   * @param {Object} details The set of additional properties to be attached to the event object when the event is raised.
+   * @return {Object}
+   */
   pageflip.prototype.dispatchEvent = function(type, details) {
-    this.element.trigger(type, details);
+    return this.element.trigger(type, details);
   };
   
+  /**
+   * Removes an event handler for the specified event that the addEventListener method registered.
+   * @param {String} type The name of the event.
+   * @param {Function} listener The event handler function to remove.
+   * @return {Object}
+   */ 
   pageflip.prototype.removeEventListener = function(type, listener) {
-    this.element.off(type, listener);
+    return this.element.off(type, listener);
   };
   
   window.PageFlip = pageflip;
