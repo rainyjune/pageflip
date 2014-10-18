@@ -408,6 +408,10 @@
       element.append(pagerContainer);
     }
     
+    this.next = function() {
+      showNextSlide();
+    };
+    
     this.count = function() {
       return originalCardsCount;
     };
