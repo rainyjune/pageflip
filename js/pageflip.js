@@ -408,6 +408,9 @@
       element.append(pagerContainer);
     }
     
+    this.count = function() {
+      return originalCardsCount;
+    };
     /**
      * Gets the index of the currently displayed page.
      */
@@ -435,7 +438,6 @@
         var comB = $.inArray(parseInt($(b).attr("data-pageId")), sortedArr);
         return comA - comB;
       });
-      // TODO
       cancelPageTransition();
       visualContainer.append(pages);
       updatePager();
