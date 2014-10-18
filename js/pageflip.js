@@ -412,6 +412,10 @@
       showNextSlide();
     };
     
+    this.previous = function() {
+      showPrevSlide();
+    };
+    
     this.count = function() {
       return originalCardsCount;
     };
