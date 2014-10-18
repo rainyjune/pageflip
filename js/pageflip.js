@@ -408,9 +408,55 @@
       element.append(pagerContainer);
     }
     
+    /**
+     * Gets the index of the currently displayed page.
+     */
     this.getCurrentPage = function() {
       return currentPageIndex + 1;
     };
+    
+    /**
+     * Sets the index of the currently displayed page.
+     */
+    this.setCurrentPage = function(i) {
+      var oldCurrentPageIndex = currentPageIndex;
+      if (i > 0 && i <= originalCardsCount && i !== oldCurrentPageIndex + 1) {
+        currentPageIndex = i - 1;
+        goToPage(oldCurrentPageIndex, currentPageIndex);
+      }
+    };
+    
+    function goToPage(oldPageIndex, newPageIndex) {
+      var pageId = newPageIndex + 1;
+      var pages = visualContainer.children();
+      var sortedArr = getPageStackOrder(pageId);
+      pages.sort(function(a, b){
+        var comA = $.inArray(parseInt($(a).attr("data-pageId")), sortedArr);
+        var comB = $.inArray(parseInt($(b).attr("data-pageId")), sortedArr);
+        return comA - comB;
+      });
+      // TODO
+      cancelPageTransition();
+      visualContainer.append(pages);
+      updatePager();
+    };
+    
+    function getPageStackOrder(pageId) {
+      var arr = [];
+      for(var i = originalCardsCount; i >0 ; i--) {
+        arr.push(i);
+      }
+      var arrIndex = $.inArray(pageId, arr);
+      if (arrIndex === -1) {
+        alert("error");
+        return arr;
+      }
+      var frag = arr.splice(arrIndex + 1);
+      //alert(frag);
+      arr.unshift(frag);
+      //alert(arr);
+      return arr;
+    }
 
     init();
     //return element;

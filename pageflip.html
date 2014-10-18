@@ -24,6 +24,7 @@
       $(function(){
         var container = $("#simple_pageFlip");
         var flipObj = new PageFlip(container, {
+          quickFlip: true,
           dataPageUrlList: [
             './htmlfiles/page1.html',
             './htmlfiles/page2.html',
@@ -35,7 +36,8 @@
         
         setTimeout(function(){
           console.log("current index:" , flipObj.getCurrentPage());
-        }, 5000);
+          flipObj.setCurrentPage(3);
+        }, 2000);
       });
     </script>
   </body>
