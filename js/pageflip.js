@@ -14,7 +14,7 @@
   }
 }(function($){
   var isTransitionSupported = isCssTransitionSupported();
-  $.fn.pageflip = function(options){
+  var pageflip = function(element, options){
     var defaultOptions = {
       keyboardShortCuts: false,
       quickFlip: false,
@@ -25,7 +25,7 @@
     
     var mergedOptions = $.extend({}, defaultOptions, options);
     
-    var element = $(this);
+    //var element = $(this);
     
     var originalCards = null,
         originalCardsCount = 0;
@@ -409,8 +409,10 @@
     }
 
     init();
-    return element;
+    //return element;
   };
+  
+  window.PageFlip = pageflip;
   
   $.fn.pageflipPublic = function(options) {
     return this.each(function(){
