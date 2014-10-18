@@ -407,6 +407,10 @@
       pagerContainer.append(nextBtn);
       element.append(pagerContainer);
     }
+    
+    this.getCurrentPage = function() {
+      return currentPageIndex + 1;
+    };
 
     init();
     //return element;
