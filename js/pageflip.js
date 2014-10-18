@@ -15,6 +15,7 @@
 }(function($){
   var isTransitionSupported = isCssTransitionSupported();
   var pageflip = function(element, options){
+    this.element = element;
     var defaultOptions = {
       keyboardShortCuts: false,
       quickFlip: false,
@@ -190,6 +191,7 @@
       
       // There is no transitionstart event yet, we create this custome event handler.
       visualContainer.on("transition_start", function(e, eventInfo){
+        var oldPageIndex = currentPageIndex;
         if (eventInfo.slideType === "next") {
           currentPageIndex++;
         } else {
@@ -202,6 +204,16 @@
         if(!isTransitionSupported) {
           transitionProgressObject.element.trigger("transitionend");
         }
+        // Trigger the custom pageselected event.
+        console.log('this.element', element);
+        element.trigger({
+          "type":'pageselected',
+          "detail": {
+            "oldPageIndex": oldPageIndex,
+            "currentPageIndex": currentPageIndex,
+            "element":transitionProgressObject.element
+          }
+        });
         return false;
       });
       
@@ -470,6 +482,18 @@
 
     init();
     //return element;
+  };
+  
+  pageflip.prototype.addEventListener = function(type, listener) {
+    this.element.on(type, listener);
+  };
+  
+  pageflip.prototype.dispatchEvent = function(type, details) {
+    this.element.trigger(type, details);
+  };
+  
+  pageflip.prototype.removeEventListener = function(type, listener) {
+    this.element.off(type, listener);
   };
   
   window.PageFlip = pageflip;
