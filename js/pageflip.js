@@ -515,37 +515,6 @@
   
   window.PageFlip = pageflip;
   
-  $.fn.pageflipPublic = function(options) {
-    return this.each(function(){
-      var thisZone = $(this);
-      thisZone.pageflip(options);
-    });
-  };
-  
-  /**
-   * Autorun.
-   */
-  $(function(){
-    var touchPlugin = null;
-    if ($.fn.swipeLeft) {
-      touchPlugin = "zepto";
-    } else if ($.fn.hammer) {
-      touchPlugin = "hammer";
-    } else if ($.mobile) {
-      touchPlugin = "jquerymobile";
-    } else if ($.toe) {
-      touchPlugin = "toe";
-    } else if ($.fn.addSwipeEvents) {
-      touchPlugin = "doubletap";
-    }
-    $(".pageFlipWrapper").pageflipPublic({
-      keyboardShortCuts: true,
-      quickFlip: true,
-      touchGesture: true,
-      touchPlugin: touchPlugin
-    });
-  });
-  
   /**
    * Normalize the transition end event name across browers.
    * @return {String|NULL}
