@@ -460,6 +460,14 @@
       cancelPageTransition();
       visualContainer.append(pages);
       updatePager();
+      element.trigger({
+        "type":'pageselected',
+        "detail": {
+          "oldPageIndex": oldPageIndex,
+          "currentPageIndex": newPageIndex,
+          "element": element.find("div[data-pageId='"+pageId+"']")
+        }
+      });
     };
     
     function getPageStackOrder(pageId) {
