@@ -18,13 +18,14 @@
   </head>
   <body>
     <div id="simple_pageFlip"></div>
-    <script src="js/zepto.js"></script>
+    <script src="//zeptojs.com/zepto.min.js"></script>
     <script src="js/pageflip.js"></script>
     <script>
       $(function(){
         var container = $("#simple_pageFlip");
         var flipObj = new PageFlip(container, {
           quickFlip: true,
+          keyboardShortCuts: true,
           dataPageUrlList: [
             './htmlfiles/page1.html',
             './htmlfiles/page2.html',
@@ -33,10 +34,18 @@
             './htmlfiles/page5.html',
           ]
         });
+        var debugFunc = function(e){
+          debugger;
+        };
+        
+        flipObj.addEventListener("pageselected", debugFunc);
+        //flipObj.removeEventListener("pageselected", debugFunc);
         
         setTimeout(function(){
-          console.log("current index:" , flipObj.getCurrentPage());
+          ///console.log("current index:" , flipObj.getCurrentPage());
           flipObj.setCurrentPage(3);
+          //alert(flipObj.count());
+          //flipObj.previous();
         }, 2000);
       });
     </script>
