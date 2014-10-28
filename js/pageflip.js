@@ -14,6 +14,7 @@
   }
 }(function($){
   var isTransitionSupported = isCssTransitionSupported();
+  var transitionEndName = transitionEndEventName();
   var pageflip = function(element, options){
     this.element = element;
     var defaultOptions = {
@@ -200,7 +201,7 @@
         updatePager();
         
         if(!isTransitionSupported) {
-          transitionProgressObject.element.trigger("transitionend");
+          transitionProgressObject.element.trigger(transitionEndName);
         }
         // Trigger the custom pageselected event.
         console.log('this.element', element);
@@ -220,7 +221,7 @@
        * @param {Event} e
        * @return {Boolean} false
        */
-      visualContainer.children().on("transitionend", function(e) {
+      visualContainer.children().on(transitionEndName, function(e) {
         console.log("transition end........,", e.target, e);
         if (transitionProgressObject.element && transitionProgressObject.slideType === "next") {
           visualContainer.prepend(transitionProgressObject.element);
@@ -318,7 +319,7 @@
       // Do nothing if transition finished.
       if (isTransitionFinished()) { return false; }
       //visualContainer.trigger("transitionend");
-      transitionProgressObject.element.trigger("transitionend");
+      transitionProgressObject.element.trigger(transitionEndName);
       return false;
     }
     
