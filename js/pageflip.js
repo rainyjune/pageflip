@@ -14,7 +14,7 @@
   }
 }(function($){
   var isTransitionSupported = isCssTransitionSupported();
-  var transitionEndName = transitionEndEventName();
+  var transitionEndName = transitionEndEventName() || "noNativeTranstionEnd";
   var pageflip = function(element, options){
     this.element = element;
     var defaultOptions = {
