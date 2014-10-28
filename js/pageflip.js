@@ -19,6 +19,7 @@
     this.element = element;
     var defaultOptions = {
       keyboardShortCuts: false,
+      loadingDomString: '<div>Loading....</div>',
       quickFlip: false,
       touchGesture: false,
       touchPlugin: null,
@@ -96,7 +97,7 @@
      */
     function addPlaceHolderPage(pageNumber) {
       var thisPage = $("<div data-pageId='" + pageNumber + "'></div>").addClass("page");
-      var loadingDiv = "<div>Loading....</div>";
+      var loadingDiv = mergedOptions.loadingDomString;
       thisPage.append(loadingDiv);
       visualContainer.prepend(thisPage);
     }
