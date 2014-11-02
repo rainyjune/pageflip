@@ -230,8 +230,7 @@
         var pageElement = $(e.target) || transitionProgressObject.element;
         if (pageElement) {
           // Remove the .transition CSS class before remove the transform CSS rule. !important!
-          pageElement.removeClass("transition").removeClass("slideRight");
-          pageElement.css({"-webkit-transform": "","transform": ""});
+          pageElement.removeClass("slideLeft").removeClass("transition").removeClass("slideRight");
         }
         
         resetTransitionProgressObject();
@@ -307,9 +306,12 @@
       }
       
       var currentPageElement = element.find('div[data-pageId="'+(currentPageIndex)+'"]');
-      
+      currentPageElement.addClass("slideLeft");
       visualContainer.append(currentPageElement);
-      slidePageElement(currentPageElement, 'previous');
+      // We should specify a time interval other than zero. 
+      setTimeout(function(){
+        slidePageElement(currentPageElement, 'previous');
+      }, 100);
       return false;
     }
     
@@ -339,25 +341,14 @@
      * 
      */
     function slidePageElement(pageElement, slideType) {
-      var screenWidth = $(window).width();
       if (slideType=="next") {
-        pageElement.addClass("transition");
-        pageElement.css({
-          "-webkit-transform": "translateX(-"+screenWidth+"px)",
-          "transform": "translateX(-"+screenWidth+"px)"
-        });
+        pageElement.addClass("transition slideLeft");
         visualContainer.trigger("transition_start", {"slideType": slideType, "element": pageElement});
       } else {
         // Make sure the custom transition_start event is triggered first. Important!
         visualContainer.trigger("transition_start", {"slideType": slideType, "element": pageElement});
-        pageElement.css({
-          "-webkit-transform": "translateX(-"+screenWidth+"px)",
-          "transform": "translateX(-"+screenWidth+"px)"
-        });
-        // We should specify a time interval other than zero. 
-        setTimeout(function(){
-          pageElement.addClass("transition slideRight");
-        }, 100);
+        
+        pageElement.addClass("transition slideRight");
       }
     }
     
