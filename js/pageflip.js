@@ -183,6 +183,10 @@
             var pages = visualContainer.children();
             pages.addSwipeEvents().on('swipeleft', showNextSlide).on("swiperight", showPrevSlide);
             break;
+          case "zeptoSwipeMy":
+            $("div.page").on("swipeLeftMy", showNextSlide);
+            $("div.page").on("swipeRightMy", showPrevSlide);
+            break;
           default:
             console.warn("The touch plugin is not supported yet.", touchPlugin);
             break;
