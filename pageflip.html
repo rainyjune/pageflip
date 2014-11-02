@@ -3,6 +3,10 @@
   <head>
     <meta charset="utf-8" />
     <title>PageFlip</title>
+    <!--
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, minimal-ui">
     <link href="style/normalize.css" rel="stylesheet" />
     <link href="style/jquery.pageflip.css" rel="stylesheet" />
     <style type="text/css">
@@ -14,36 +18,60 @@
         width: 100%;
         height: 100%;
       }
+      /*
+      .pagerContainer {
+        display: none;
+      }
+      */
+      
+      .pageFlipWrapper .pagerContainer {
+        bottom: 100px;
+      }
     </style>
   </head>
   <body>
     <div id="simple_pageFlip"></div>
-    <script src="//zeptojs.com/zepto.min.js"></script>
+    <!--
+    <script src="http://10.207.26.140:9090/target/target-script-min.js#anonymous"></script>
+    -->
+    <script src="js/zepto.min.js"></script>
+    <script src="js/touch.js"></script>
     <script src="js/pageflip.js"></script>
     <script>
       $(function(){
         var container = $("#simple_pageFlip");
         var flipObj = new PageFlip(container, {
-          quickFlip: true,
+          quickFlip: false,
+          loadingDomString: "<div>加载中……</div>",
           keyboardShortCuts: true,
+          touchGesture: true,
+          touchPlugin: "zeptoSwipeMy",
           dataPageUrlList: [
             './htmlfiles/page1.html',
             './htmlfiles/page2.html',
             './htmlfiles/page3.html',
             './htmlfiles/page4.html',
             './htmlfiles/page5.html',
+            './htmlfiles/page6.html',
+            './htmlfiles/page7.html',
+            './htmlfiles/page8.html',
+            './htmlfiles/page9.html',
+            './htmlfiles/page10.html',
+            './htmlfiles/page11.html',
+            './htmlfiles/page12.html',
+            './htmlfiles/page13.html',
           ]
         });
         var debugFunc = function(e){
-          debugger;
+          //debugger;
         };
-        
+        window.FlipObj = flipObj;
         flipObj.addEventListener("pageselected", debugFunc);
         //flipObj.removeEventListener("pageselected", debugFunc);
         
         setTimeout(function(){
           ///console.log("current index:" , flipObj.getCurrentPage());
-          flipObj.setCurrentPage(3);
+          //flipObj.setCurrentPage(3);
           //alert(flipObj.count());
           //flipObj.previous();
         }, 2000);
