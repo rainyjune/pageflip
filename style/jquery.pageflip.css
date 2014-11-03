@@ -84,6 +84,11 @@
   z-index: 50;
 }
 
+/* Page Level Style */
 .pageFlipWrapper .displayContainer div.page > div > img {
   max-width: 100%;
+}
+
+.pageFlipWrapper .displayContainer div.page p {
+  word-break: break-all;
 }
