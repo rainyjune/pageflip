@@ -16,7 +16,10 @@
   var isTransitionSupported = isCssTransitionSupported();
   var transitionEndName = transitionEndEventName() || "noNativeTranstionEnd";
   var pageflip = function(element, options){
-    this.element = element;
+    if (!element) {
+      throw "Element should not be undefined";
+    }
+
     var defaultOptions = {
       keyboardShortCuts: false,
       loadingDomString: '<div>Loading....</div>',
@@ -27,8 +30,6 @@
     };
     
     var mergedOptions = $.extend({}, defaultOptions, options);
-    
-    //var element = $(this);
     
     var originalCards = null,
         originalCardsCount = 0;
@@ -415,6 +416,10 @@
       element.append(pagerContainer);
     }
     
+    this.getElement = function() {
+      return element;
+    };
+    
     this.next = function() {
       showNextSlide();
     };
@@ -477,9 +482,7 @@
         return arr;
       }
       var frag = arr.splice(arrIndex + 1);
-      //alert(frag);
       arr.unshift(frag);
-      //alert(arr);
       return arr;
     }
 
@@ -495,7 +498,8 @@
    * @return {Object}
    */
   pageflip.prototype.addEventListener = function(type, listener) {
-    return this.element.on(type, listener);
+    var element = this.getElement();
+    return element.on(type, listener);
   };
   
   /**
@@ -505,7 +509,8 @@
    * @return {Object}
    */
   pageflip.prototype.dispatchEvent = function(type, details) {
-    return this.element.trigger(type, details);
+    var element = this.getElement();
+    return element.trigger(type, details);
   };
   
   /**
@@ -515,7 +520,8 @@
    * @return {Object}
    */ 
   pageflip.prototype.removeEventListener = function(type, listener) {
-    return this.element.off(type, listener);
+    var element = this.getElement();
+    return element.off(type, listener);
   };
   
   window.PageFlip = pageflip;
