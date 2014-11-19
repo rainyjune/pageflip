@@ -21,6 +21,7 @@
     }
 
     var defaultOptions = {
+      orientation: 'horizontal',
       keyboardShortCuts: false,
       loadingDomString: '<div>Loading....</div>',
       quickFlip: false,
@@ -235,7 +236,7 @@
         var pageElement = $(e.target) || transitionProgressObject.element;
         if (pageElement) {
           // Remove the .transition CSS class before remove the transform CSS rule. !important!
-          pageElement.removeClass("slideLeft").removeClass("transition").removeClass("slideRight");
+          pageElement.removeClass("slideLeft").removeClass("transition").removeClass("slideRight").removeClass("slideUp").removeClass("slideDown");
         }
         
         resetTransitionProgressObject();
@@ -311,7 +312,8 @@
       }
       
       var currentPageElement = element.find('div[data-pageId="'+(currentPageIndex)+'"]');
-      currentPageElement.addClass("slideLeft");
+      var slideClass = mergedOptions.orientation == "horizontal" ? "slideLeft" : "slideUp";
+      currentPageElement.addClass(slideClass);
       visualContainer.append(currentPageElement);
       // We should specify a time interval other than zero. 
       setTimeout(function(){
@@ -347,13 +349,14 @@
      */
     function slidePageElement(pageElement, slideType) {
       if (slideType=="next") {
-        pageElement.addClass("transition slideLeft");
+        var slideClass = mergedOptions.orientation == "horizontal" ? "slideLeft" : "slideUp";
+        pageElement.addClass("transition " + slideClass);
         visualContainer.trigger("transition_start", {"slideType": slideType, "element": pageElement});
       } else {
         // Make sure the custom transition_start event is triggered first. Important!
         visualContainer.trigger("transition_start", {"slideType": slideType, "element": pageElement});
-        
-        pageElement.addClass("transition slideRight");
+        var slideClass = mergedOptions.orientation == "horizontal" ? "slideRight" : "slideDown";
+        pageElement.addClass("transition " + slideClass);
       }
     }
     
