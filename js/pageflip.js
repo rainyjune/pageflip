@@ -186,8 +186,13 @@
             pages.addSwipeEvents().on('swipeleft', showNextSlide).on("swiperight", showPrevSlide);
             break;
           case "zeptoSwipeMy":
-            $("div.page").on("swipeLeftMy", showNextSlide);
-            $("div.page").on("swipeRightMy", showPrevSlide);
+            if (mergedOptions.orientation == "horizontal") {
+              $("div.page").on("swipeLeftMy", showNextSlide);
+              $("div.page").on("swipeRightMy", showPrevSlide);
+            } else {
+              $("div.page").on("swipeUpMy", showNextSlide);
+              $("div.page").on("swipeDownMy", showPrevSlide);
+            }
             break;
           default:
             console.warn("The touch plugin is not supported yet.", touchPlugin);
