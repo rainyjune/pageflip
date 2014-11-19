@@ -41,7 +41,8 @@
       $(function(){
         var container = $("#simple_pageFlip");
         var flipObj = new PageFlip(container, {
-          quickFlip: false,
+          orientation: 'vertical',
+          quickFlip: true,
           loadingDomString: "<div>加载中……</div>",
           keyboardShortCuts: true,
           touchGesture: true,

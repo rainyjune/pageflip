@@ -62,6 +62,22 @@
   transform: translateX(0) !important;
 }
 
+.pageFlipWrapper .slideUp {
+  -webkit-transform: translateY(-100%);
+  -moz-transform: translateY(-100%);
+  -o-transform: translateY(-100%);
+  -ms-transform: translateY(-100%);
+  transform: translateY(-100%); 
+}
+
+.pageFlipWrapper .slideDown {
+  -webkit-transform: translateY(0) !important;
+  -moz-transform: translateY(0) !important;
+  -o-transform: translateY(0) !important;
+  -ms-transform: translateY(0) !important;
+  transform: translateY(0) !important;
+}
+
 .pageFlipWrapper .originalPagesContainer {
   display: none;
 }
