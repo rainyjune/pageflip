@@ -23,6 +23,7 @@
     var defaultOptions = {
       orientation: 'horizontal',
       keyboardShortCuts: false,
+      mousewheelSupport: false,
       loadingDomString: '<div>Loading....</div>',
       quickFlip: false,
       touchGesture: false,
@@ -147,6 +148,36 @@
             default: return; // exit this handler for other keys
           }
           e.preventDefault(); // prevent the default action (scroll / move caret)
+        });
+      }
+      
+      if (mergedOptions.mousewheelSupport) {
+        // detect available wheel event
+        var wheelSupport = "onwheel" in document.createElement("div") ? "wheel" : // Modern browsers support "wheel"
+              document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
+              "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
+
+        $(document).on(wheelSupport, function(event){
+          if (event.wheelDelta) {
+            if (event.wheelDelta > 0) {
+              //console.log("scroll up");
+              showPrevSlide(event);
+            } else {
+              //console.log("scroll down");
+              showNextSlide(event);
+            }
+          } else  {
+            var firefoxDelta = event.deltaY;
+            if (firefoxDelta) {
+              if (firefoxDelta > 0) {
+                //console.log("scroll down");
+                showNextSlide(event);
+              } else {
+                //console.log("scroll up");
+                showPrevSlide(event);
+              }
+            }
+          }
         });
       }
       
