@@ -52,6 +52,7 @@
       
     var testCount = 0;
     var testTimer = null;
+    var eventHandlers = [];
     
     /**
      * The init function.
@@ -126,6 +127,14 @@
       })
     }
     
+    function registerEventHandler(element, eventName, handler) {
+      eventHandlers.push({
+        "element": element,
+        "eventName": eventName,
+        "handler": handler
+      });
+    }
+    
     /**
      * Add event listeners for this plugin.
      *
@@ -133,9 +142,11 @@
     function addListeners() {
       prevBtn.on("click", showPrevSlide);
       nextBtn.on("click", showNextSlide);
+      registerEventHandler(prevBtn, "click", showPrevSlide);
+      registerEventHandler(nextBtn, "click", showNextSlide);
       
       if (mergedOptions.keyboardShortCuts) {
-        $(document).keydown(function (e) {
+        var keydownHandler = function (e) {
           switch (e.which) {
             case 37: // left
             case 38: // up
@@ -148,7 +159,9 @@
             default: return; // exit this handler for other keys
           }
           e.preventDefault(); // prevent the default action (scroll / move caret)
-        });
+        };
+        $(document).on("keydown", keydownHandler);
+        registerEventHandler($(document), "keydown", keydownHandler);
       }
       
       if (mergedOptions.mousewheelSupport) {
@@ -157,7 +170,7 @@
               document.onmousewheel !== undefined ? "mousewheel" : // Webkit and IE support at least "mousewheel"
               "DOMMouseScroll"; // let's assume that remaining browsers are older Firefox
 
-        $(document).on(wheelSupport, function(event){
+        var wheelHandlerFunction = function(event){
           if (event.wheelDelta) {
             if (event.wheelDelta > 0) {
               //console.log("scroll up");
@@ -178,7 +191,9 @@
               }
             }
           }
-        });
+        };
+        $(document).on(wheelSupport, wheelHandlerFunction);
+        registerEventHandler($(document), wheelSupport, wheelHandlerFunction);
       }
       
       if (mergedOptions.touchGesture && mergedOptions.touchPlugin) {
@@ -188,16 +203,23 @@
             var pages = visualContainer.children();
             pages.on("swipeLeft", showNextSlide);
             pages.on("swipeRight", showPrevSlide);
+            
+            registerEventHandler(pages, "swipeLeft", showNextSlide);
+            registerEventHandler(pages, "swipeRight", showPrevSlide);
             break;
           case 'jquerymobile':
             var pages = visualContainer.children();
             pages.on("swipeleft", showNextSlide);
             pages.on("swiperight", showPrevSlide);
+            registerEventHandler(pages, "swipeleft", showNextSlide);
+            registerEventHandler(pages, "swiperight", showPrevSlide);
             break;
           case 'hammer':
             var pages = visualContainer.children().hammer();
             pages.on("swipeleft", showNextSlide);
             pages.on("swiperight", showPrevSlide);
+            registerEventHandler(pages, "swipeleft", showNextSlide);
+            registerEventHandler(pages, "swiperight", showPrevSlide);
             break;
           case "toe":
             var pages = visualContainer.children();
@@ -211,18 +233,29 @@
               return false;
             };
             pages.on('swipe', handleSwipe);
+            registerEventHandler(pages, "swipe", handleSwipe);
             break;
           case "doubletap":
             var pages = visualContainer.children();
-            pages.addSwipeEvents().on('swipeleft', showNextSlide).on("swiperight", showPrevSlide);
+            var swipeEventObj = pages.addSwipeEvents();
+            swipeEventObj.on('swipeleft', showNextSlide).on("swiperight", showPrevSlide);
+            registerEventHandler(swipeEventObj, "swipeleft", showNextSlide);
+            registerEventHandler(swipeEventObj, "swiperight", showPrevSlide);
             break;
           case "zeptoSwipeMy":
+            var pages = $("div.page");
             if (mergedOptions.orientation == "horizontal") {
-              $("div.page").on("swipeLeftMy", showNextSlide);
-              $("div.page").on("swipeRightMy", showPrevSlide);
+              pages.on("swipeLeftMy", showNextSlide);
+              pages.on("swipeRightMy", showPrevSlide);
+              
+              registerEventHandler(pages, "swipeLeftMy", showNextSlide);
+              registerEventHandler(pages, "swipeRightMy", showPrevSlide);
             } else {
-              $("div.page").on("swipeUpMy", showNextSlide);
-              $("div.page").on("swipeDownMy", showPrevSlide);
+              pages.on("swipeUpMy", showNextSlide);
+              pages.on("swipeDownMy", showPrevSlide);
+              
+              registerEventHandler(pages, "swipeUpMy", showNextSlide);
+              registerEventHandler(pages, "swipeDownMy", showPrevSlide);
             }
             break;
           default:
@@ -232,7 +265,7 @@
       }
       
       // There is no transitionstart event yet, we create this custome event handler.
-      visualContainer.on("transition_start", function(e, eventInfo){
+      var transitionStartHandler = function(e, eventInfo){
         var oldPageIndex = currentPageIndex;
         if (eventInfo.slideType === "next") {
           currentPageIndex++;
@@ -257,14 +290,16 @@
           }
         });
         return false;
-      });
+      };
+      visualContainer.on("transition_start", transitionStartHandler);
+      registerEventHandler(visualContainer, "transition_start", transitionStartHandler);
       
       /**
        * Add event listener for the transition end event.
        * @param {Event} e
        * @return {Boolean} false
        */
-      visualContainer.children().on(transitionEndName, function(e) {
+      var transitionEndHandler = function(e) {
         console.log("transition end........,", e.target, e);
         if (transitionProgressObject.element && transitionProgressObject.slideType === "next") {
           visualContainer.prepend(transitionProgressObject.element);
@@ -277,7 +312,11 @@
         
         resetTransitionProgressObject();
         return false;
-      });
+      };
+      
+      var visualContainerChildren = visualContainer.children();
+      visualContainerChildren.on(transitionEndName, transitionEndHandler);
+      registerEventHandler(visualContainerChildren, transitionEndName, transitionEndHandler);
     }
     
     /**
@@ -488,6 +527,19 @@
       }
     };
     
+    this.registerEventHandler = registerEventHandler;
+    this.getRegisteredEventHandlers  = function() {
+      return eventHandlers;
+    };
+    
+    this.dispose = function() {
+      $.each(eventHandlers, function(index, item) {
+        item.element.off(item.eventName, item.handler);
+      });
+      eventHandlers = [];
+      element.empty();
+    };
+    
     function goToPage(oldPageIndex, newPageIndex) {
       var pageId = newPageIndex + 1;
       var pages = visualContainer.children();
@@ -538,6 +590,7 @@
    */
   pageflip.prototype.addEventListener = function(type, listener) {
     var element = this.getElement();
+    this.registerEventHandler(element, type, listener);
     return element.on(type, listener);
   };
   
